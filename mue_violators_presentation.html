@@ -1,5 +1,37 @@
 <html>
 <!--
+shadow-y textbox
+div
+box-shadow: 0 1px 4px rgba(0,0,0,0.2)
+padding 
+border: none
+
+1px solid #eee mid-line border
+
+element.style {
+}
+Matched CSS Rules
+.article_byLine .opt-social_horizontal-row_link {
+display: inline-block;
+width: 65px;
+height: 65px;
+background-size: 30px;
+background-position: center 10px;
+background-repeat: no-repeat;
+font-size: 12px;
+line-height: 100px;
+text-align: center;
+margin-bottom: 1p
+
+#3e6895 reddit
+#4aade8 twitter
+#405d94 facebook
+#cb5a45 google
+#2c4762 tumblr
+
+#d32028 red highlight
+
+
 font-family: Oswald, Arial, Helvetica, sans-serif;
 color: rgb(70, 70, 70);
 border-bottom-color: rgb(224, 224, 224);
@@ -54,7 +86,7 @@ Arial,Helvetica,sans-serif
    <head>
       <script type="text/javascript" src="./d3.v3.min.js"></script>
       <script type="text/javascript" src="./jquery-1.10.2.js"></script>
-      <script type="text/javascript" src="../libraries/chroma.js-master/chroma.min.js"></script>
+      <!-- <script type="text/javascript" src="../libraries/chroma.js-master/chroma.min.js"></script> -->
       <script type="text/javascript" src="./mue_violators_helper.js"></script>
       <script type="text/javascript" src="./drug_test_mue_data.js"></script>
       <link rel="stylesheet" type="text/css" href="./mue_violators.css" />
@@ -87,7 +119,12 @@ Arial,Helvetica,sans-serif
             {"hcpcs":"83789", "description":"Mass Spectrometry", "annotation_line": "Annual testing using mass spectrometry increased by over 8X from 2010 to 2012"}];
 
          d3.select("body").append("div").attr("id", "headline").attr("class", "headline")
-            .style("background-color", "transparent").style("height",12).style("margin-top",0).style("margin-bottom",5)
+            //.style("background-image", "url(bg-striped.png)")
+            .style("background-color", "#eee").style("height",31).style("padding-top", 5).style("margin-top",0).style("margin-bottom",5)
+            .style("border-bottom", "1 solid rgb(255,153,0)")
+            //.style("background-color", "rgb(255, 153, 0)")
+            /// #bbb #fff!important 15px
+            .style("text-align", "center")
             .style("font-size", 12)
             //.style("text-transform", "uppercase")
             .style("font-family", "Lucida Sans")
@@ -104,36 +141,37 @@ Arial,Helvetica,sans-serif
          var title_svg = d3.select("div#title_reel").append("svg").attr("id", "title_reel_svg").style("width", "100%");
          title_svg
             .append("rect").attr("width", "100%").attr("height",25)
+            //.style("background-image", "url(bg-striped.png)");
             .attr("fill", "url(#grad2)");
          title_svg
             .append("text").text("Total Cost for HCPCS, Annual")
-            .style("shape-rendering", "crispEdges")
-            .attr("font-family", "Arial").attr("font-weight", "normal").attr("fill", "#444")
+            .style("shape-rendering", "crispEdges").style("font-size", 12)
+            .attr("font-family", "Lucida Sans").attr("font-weight", "normal").attr("fill", "#444")
             //.style("text-shadow","0 1px 0 rgba(60,140,156,1)")
             .attr("font-size", 12)
             .attr("x", 190).attr("y", 18);
          title_svg
             .append("text").text("% of Cost Exceeding MUE, Annual")
             .style("shape-rendering", "crispEdges")
-            .attr("font-family", "Arial").attr("font-weight", "normal").attr("fill", "#444")
+            .attr("font-family", "Lucida Sans").attr("font-weight", "normal").attr("fill", "#444")
             .attr("font-size", 12)
             .attr("x", 395).attr("y", 18);
 
          title_svg
             .append("text").text("% of Overpayment Billed by Top X NPIs")
             .style("shape-rendering", "crispEdges")
-            .attr("font-family", "Arial").attr("font-weight", "normal").attr("fill", "#444")
+            .attr("font-family", "Lucida Sans").attr("font-weight", "normal").attr("fill", "#444")
             .attr("font-size", 12)
             .attr("x", 605).attr("y", 18);
 
 
 
          d3.select("body").append("div").attr("id", "opiate_reel").attr("class", "code_reel")
-            .style("height", 200).style("background-color", "#C5D0D4").style("margin-top",1).style("margin-bottom",15);
+            .style("height", 200).style("background-color", "#C5D0D4").style("margin-top",0).style("margin-bottom",0).style("border-top", "1 solid #999");
          d3.select("body").append("div").attr("id", "chromatography_reel").attr("class", "code_reel")
-            .style("height", 200).style("background-color", "#CBD8E3").style("margin-top",15).style("margin-bottom",15);
+            .style("height", 200).style("background-color", "#CBD8E3").style("margin-top",0).style("margin-bottom",0).style("border-top", "1 solid #999");
          d3.select("body").append("div").attr("id", "mass_spectrometry_reel").attr("class", "code_reel")
-            .style("height", 200).style("background-color", "#C5D0D4").style("margin-top",15).style("margin-bottom",15);
+            .style("height", 200).style("background-color", "#C5D0D4").style("margin-top",0).style("margin-bottom",0).style("border-top", "1 solid #999");
 
 
          var opiate_label = reel_label("opiate_reel", "83925")
