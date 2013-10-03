@@ -17,7 +17,8 @@ div.hcpcs_bubble {
    position: absolute;
    height: 190;
    width: 100;
-   background-color: #406584;
+   /* background-color: #406584; */
+   background-image: -webkit-linear-gradient(top, rgb(53, 64, 95) 0%, rgb(34, 43, 71) 100%);
    border-style: solid;
    border-color: rgba(80,50,15,0.2);
    border-width: 1px;
@@ -25,7 +26,7 @@ div.hcpcs_bubble {
 }
 div.legend_bubble {
    position: absolute;   
-   background-image: url("./bg-striped.png");
+   background-image: url("patterns/bg-striped.png");
    font-family: arial, sans-serif;
    font-size: 14px;
    font-weight: bold;
