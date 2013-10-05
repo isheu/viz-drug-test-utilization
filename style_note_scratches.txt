@@ -1,0 +1,185 @@
+// More generally, a generate annotation function
+<!--
+MDN pink on dark
+#eb9f81
+font-family: 'Lucida Grande', 'Lucida Sans Unicode', 'DejaVu Sans', Lucida, Arial, Helvetica, sans-serif;
+font-size: 11px;
+font-style: normal;
+font-variant: normal;
+font-weight: normal;
+height: 16px;
+line-height: 16.5px;
+
+nav bar on MDN:
+color: rgb(109, 109, 103)
+color: rgb(51, 51, 51);
+text-shadow: rgba(255, 255, 255, 0.247059) 1px 1px 0px;
+#369;
+#69c;
+hover fill: rgb(51, 102, 153)
+
+nav bar border-top rgb(203, 200, 185)
+background: rgb(246, 246, 241)
+nav bar border-bottom rgb(248, 248, 246)
+border-top: 1px solid #cbc8b9;
+border-bottom: 1px solid #f8f8f6;
+background: #f6f6f1 url("../img/bg-content.png") fixed
+
+
+
+shadow-y textbox
+div
+box-shadow: 0 1px 4px rgba(0,0,0,0.2)
+padding 
+border: none
+
+1px solid #eee mid-line border
+
+element.style {
+}
+Matched CSS Rules
+.article_byLine .opt-social_horizontal-row_link {
+display: inline-block;
+width: 65px;
+height: 65px;
+background-size: 30px;
+background-position: center 10px;
+background-repeat: no-repeat;
+font-size: 12px;
+line-height: 100px;
+text-align: center;
+margin-bottom: 1p
+
+#3e6895 reddit
+#4aade8 twitter
+#405d94 facebook
+#cb5a45 google
+#2c4762 tumblr
+
+#d32028 red highlight
+
+
+font-family: Oswald, Arial, Helvetica, sans-serif;
+color: rgb(70, 70, 70);
+border-bottom-color: rgb(224, 224, 224);
+border-bottom-style: solid;
+border-bottom-width: 1px;
+font-size: 26px;
+line-height: 26.390625px;
+text-transform: uppercase;
+
+#820000
+3px solid #820000
+-3px
+
+Arial,Helvetica,sans-serif
+#717171
+12px
+-->
+      <!--
+      <svg>
+        <rect x="10" y="10" width="100" height="150" fill="gray"/>
+        <foreignobject x="10" y="10" width="100" height="150">
+            <div>Here is a <strong>paragraph</strong> that requires <em>word wrap</em></div>
+        </foreignobject>
+       
+        <circle cx="200" cy="200" r="100" fill="blue" stoke="red"/>
+        <foreignobject x="120" y="120" width="180" height="180">
+            <div>
+              <ul>
+                <li><strong>First</strong> item</li>
+       
+                <li><em>Second</em> item</li>
+                <li>Thrid item</li>
+              </ul>
+            </div>
+        </foreignobject>
+      </svg>
+      -->
+
+   <!-- toggle years button -->
+   <!-- Tooltip for stacked bar charts
+   -->
+   <!-- practice using map -->
+   <!-- Varying years by color. 
+      legend for line chart
+      Annotations to lists
+      foreign object
+      defs
+      legend
+      activate box
+      smart tooltip
+      checkboxes to include/exclude years -->
+
+
+// Smart Tooltip Locator
+// Axis labels
+/*
+Helvetica Neue, Helvetica, Arial, sans-serif
+• Data analysis is at least as important as visually displaying it; there are tools that help with this process (Ch. 6)
+Helvetica, Arial, sans-serif
+Arial, Helvetica, sans-serif
+"Lucida Sans Unicode", "Lucida Grande", sans-serif
+Tahoma, Geneva, sans-serif
+"Courier New", Courier, monospace
+"Palatino Linotype", "Book Antiqua", Palatino, serif
+"Times New Roman", Times, serif
+Lucida Sans Unicode.
+Use inkscape to fix up the bubbles
+jqueryui
+MDN orange; #de5d0a
+YouTube Channel Borders (Blue)
+header
+border-color #1b7fcc
+background #1b7fcc
+
+border 1px solid #5f8fbf
+border-top 1px solid #6f9fcf
+background #6898c9
+
+another blue #2793e6
+
+bright blue:
+#00daee
+#00daee
+#11defa
+
+bright orange:
+#f5b232
+
+New Yorker Footer area
+Heading: #000
+Arial,Helvetica,sans-serif
+font-size: 10px
+
+#999
+9px Verdana,Geneva,sans-serif
+
+Subheading: #626262
+9px Verdana,Geneva,sans-serif
+
+NYTIMES 
+a:visited #666699
+a: #004276
+#333
+border color: #d3d3d3
+1px solid #ccc
+#e6eff8
+
+rgb(230, 239, 248)
+
+pointillism pattern.
+
+*/
+/*
+
+font-family: 'Times New Roman', Times, serif;
+font-size: 14px;
+height: 160px;
+line-height: 20.390625px;
+
+
+#ffffff !important
+text shadow: 0 1px 0 rgba(60,140,156,.6)
+*/
+

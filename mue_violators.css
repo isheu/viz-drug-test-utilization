@@ -1,7 +1,3 @@
-/*
-#ffffff !important
-text shadow: 0 1px 0 rgba(60,140,156,.6)
-*/
 
 body {
    font-family: arial, sans-serif;
@@ -13,12 +9,23 @@ div#hcpcs_reel_active {
    background-color: rgba(192,192,192,0.15);
 }
 
+.yr_path_hover {
+   stroke-width: 3;
+   stroke: #de5d0a;
+   cursor: pointer;   
+}
+.yr_path_click {
+   stroke-width: 3;
+   stroke: #f5b232;  
+}
+
+
 div.hcpcs_bubble {
    position: absolute;
    height: 190;
    width: 100;
-   /* background-color: #406584; */
-   background-image: -webkit-linear-gradient(top, rgb(53, 64, 95) 0%, rgb(34, 43, 71) 100%);
+   background-color: #406584;
+   /* background-image: -webkit-linear-gradient(top, rgb(53, 64, 95) 0%, rgb(34, 43, 71) 100%); */
    border-style: solid;
    border-color: rgba(80,50,15,0.2);
    border-width: 1px;

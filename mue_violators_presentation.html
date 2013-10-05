@@ -1,104 +1,35 @@
 <html>
-<!--
-shadow-y textbox
-div
-box-shadow: 0 1px 4px rgba(0,0,0,0.2)
-padding 
-border: none
-
-1px solid #eee mid-line border
-
-element.style {
-}
-Matched CSS Rules
-.article_byLine .opt-social_horizontal-row_link {
-display: inline-block;
-width: 65px;
-height: 65px;
-background-size: 30px;
-background-position: center 10px;
-background-repeat: no-repeat;
-font-size: 12px;
-line-height: 100px;
-text-align: center;
-margin-bottom: 1p
-
-#3e6895 reddit
-#4aade8 twitter
-#405d94 facebook
-#cb5a45 google
-#2c4762 tumblr
-
-#d32028 red highlight
-
-
-font-family: Oswald, Arial, Helvetica, sans-serif;
-color: rgb(70, 70, 70);
-border-bottom-color: rgb(224, 224, 224);
-border-bottom-style: solid;
-border-bottom-width: 1px;
-font-size: 26px;
-line-height: 26.390625px;
-text-transform: uppercase;
-
-#820000
-3px solid #820000
--3px
-
-Arial,Helvetica,sans-serif
-#717171
-12px
--->
-      <!--
-      <svg>
-        <rect x="10" y="10" width="100" height="150" fill="gray"/>
-        <foreignobject x="10" y="10" width="100" height="150">
-            <div>Here is a <strong>paragraph</strong> that requires <em>word wrap</em></div>
-        </foreignobject>
-       
-        <circle cx="200" cy="200" r="100" fill="blue" stoke="red"/>
-        <foreignobject x="120" y="120" width="180" height="180">
-            <div>
-              <ul>
-                <li><strong>First</strong> item</li>
-       
-                <li><em>Second</em> item</li>
-                <li>Thrid item</li>
-              </ul>
-            </div>
-        </foreignobject>
-      </svg>
-      -->
-
-   <!-- toggle years button -->
-   <!-- Tooltip for stacked bar charts
-   -->
-   <!-- practice using map -->
-   <!-- Varying years by color. 
-      legend for line chart
-      Annotations to lists
-      foreign object
-      defs
-      legend
-      activate box
-      smart tooltip
-      checkboxes to include/exclude years -->
    <head>
       <script type="text/javascript" src="./d3.v3.min.js"></script>
       <script type="text/javascript" src="./jquery-1.10.2.js"></script>
-      <!-- <script type="text/javascript" src="../libraries/chroma.js-master/chroma.min.js"></script> -->
+      <script type="text/javascript" src="../../libraries/jquery-ui-1.10.3/ui/jquery-ui.js"></script>      
+      <script type="text/javascript" src="../../libraries/chroma.js-master/chroma.min.js"></script>
+      <!-- <script type="text/javascript" src="../../libraries/bootstrap-3.0.0-dist/js/bootstrap.min.js"></script>     -->
       <script type="text/javascript" src="./mue_violators_helper.js"></script>
       <script type="text/javascript" src="./drug_test_mue_data.js"></script>
-      <link rel="stylesheet" type="text/css" href="./mue_violators.css" />
+
+      <!-- <link rel="stylesheet" type="text/css" href="../../libraries/bootstrap-3.0.0-dist/css/bootstrap.min.css" /> -->
+      <link rel="stylesheet" type="text/css" href="./mue_violators.css" /> 
+
       <title>
       Quantitative Drug Testing MUE Violations over Time
       </title>
    </head>
    <body>
-
    
       <script type="text/javascript">
+         var column_0_x = 335;
+         var column_1_x = 475;
+         var column_2_x = 715;
+         var column_3_x = 900;
+         var column_4_x = 1150;
+         var column_5_x = 1400;
+         
          /*
+         drop down. select metric displayed. select a provider.
+
+         some sort of static tag at the side? persistent toolbar
+
          var chroma_interpolator = chroma.interpolate.bezier(['blue', 'white']);
          console.log(chroma_interpolator(0).hex())
          console.log(chroma_interpolator(0.33).hex())
@@ -110,6 +41,7 @@ Arial,Helvetica,sans-serif
          console.log(chroma_interpolator_lightness(0.66).hex())
          console.log(chroma_interpolator_lightness(1).hex())
          */
+
          var price_formatter = d3.format(">,s");
          var price_formatter_full = d3.format(",02d");
          var percent_formatter = d3.format("2d");
@@ -119,8 +51,7 @@ Arial,Helvetica,sans-serif
             {"hcpcs":"83789", "description":"Mass Spectrometry", "annotation_line": "Annual testing using mass spectrometry increased by over 8X from 2010 to 2012"}];
 
          d3.select("body").append("div").attr("id", "headline").attr("class", "headline")
-            //.style("background-image", "url(bg-striped.png)")
-            .style("background-color", "#eee").style("height",31).style("padding-top", 5).style("margin-top",0).style("margin-bottom",5)
+            .style("background-color", "#eee").style("height",31).style("padding-top", 5).style("margin-top",0).style("margin-bottom",0)
             .style("border-bottom", "1 solid rgb(255,153,0)")
             //.style("background-color", "rgb(255, 153, 0)")
             /// #bbb #fff!important 15px
@@ -132,39 +63,42 @@ Arial,Helvetica,sans-serif
 
          d3.select("body").append("div").attr("id", "title_reel").attr("class", "title_reel")
             .style("height", 25)
-            .style("background-color", "transparent")
-            //.style("border-bottom", "1 #5f8fbf solid")
-            //.style("background-color", "#CBD8E3")
+            .style("background-image", "url(patterns/bg-striped.png)")
             .style("margin-top",0).style("margin-bottom",0);
 
 
          var title_svg = d3.select("div#title_reel").append("svg").attr("id", "title_reel_svg").style("width", "100%");
          title_svg
-            .append("rect").attr("width", "100%").attr("height",25)
-            //.style("background-image", "url(bg-striped.png)");
-            .attr("fill", "url(#grad2)");
-         title_svg
             .append("text").text("Total Cost for HCPCS, Annual")
             .style("shape-rendering", "crispEdges").style("font-size", 12)
             .attr("font-family", "Lucida Sans").attr("font-weight", "normal").attr("fill", "#444")
-            //.style("text-shadow","0 1px 0 rgba(60,140,156,1)")
-            .attr("font-size", 12)
-            .attr("x", 190).attr("y", 18);
+            .attr("x", function() { return column_1_x + 15; }).attr("y", 18);
          title_svg
             .append("text").text("% of Cost Exceeding MUE, Annual")
-            .style("shape-rendering", "crispEdges")
+            .style("shape-rendering", "crispEdges").style("font-size", 12)
             .attr("font-family", "Lucida Sans").attr("font-weight", "normal").attr("fill", "#444")
-            .attr("font-size", 12)
-            .attr("x", 395).attr("y", 18);
+            .attr("x", function() { return column_2_x - 20; }).attr("y", 18);
 
          title_svg
-            .append("text").text("% of Overpayment Billed by Top X NPIs")
-            .style("shape-rendering", "crispEdges")
+            .append("text").text("% of Overpayment by Top X NPIs")
+            .style("shape-rendering", "crispEdges").style("font-size", 12)
+            .attr("font-family", "Lucida Sans").attr("font-weight", "normal").attr("fill", "#444")
+            .attr("x", function() { return column_3_x + 17; }).attr("y", 18);
+
+         title_svg
+            .append("text").text("% of Overpayment, Top NPIs")
+            .style("shape-rendering", "crispEdges").style("font-size", 12)
             .attr("font-family", "Lucida Sans").attr("font-weight", "normal").attr("fill", "#444")
             .attr("font-size", 12)
-            .attr("x", 605).attr("y", 18);
-
-
+            .attr("x", function() { return column_4_x + 25; }).attr("y", 18);
+         
+         // Use JQueryUI Chooser //
+         title_svg
+            .append("text").text("Choose a Provider:")
+            .style("shape-rendering", "crispEdges").style("text-transform", "uppercase")
+            .attr("font-family", "Lucida Sans").attr("font-weight", "normal").attr("fill", "#666")
+            .attr("font-size", 11)
+            .attr("x", function() { return column_5_x + 25; }).attr("y", 18);
 
          d3.select("body").append("div").attr("id", "opiate_reel").attr("class", "code_reel")
             .style("height", 200).style("background-color", "#C5D0D4").style("margin-top",0).style("margin-bottom",0).style("border-top", "1 solid #999");
@@ -181,9 +115,9 @@ Arial,Helvetica,sans-serif
          var mass_spectrometry_label = reel_label("mass_spectrometry_reel", "83789")
          mass_spectrometry_label()
 
-         d3.select("div#opiate_reel").append("svg").attr("id", "opiate_reel_svg").style("width", 1024);
-         d3.select("div#chromatography_reel").append("svg").attr("id", "chromatography_reel_svg").style("width", 1024);
-         d3.select("div#mass_spectrometry_reel").append("svg").attr("id", "mass_spectrometry_reel_svg").style("width", 1024);
+         d3.select("div#opiate_reel").append("svg").attr("id", "opiate_reel_svg").style("width", 1400);
+         d3.select("div#chromatography_reel").append("svg").attr("id", "chromatography_reel_svg").style("width", 1400);
+         d3.select("div#mass_spectrometry_reel").append("svg").attr("id", "mass_spectrometry_reel_svg").style("width", 1400);
          
          
          var opiate_line_plot = year_linechart("83925", "opiate_reel", "opiate_line", "opiate")
@@ -226,12 +160,19 @@ Arial,Helvetica,sans-serif
          })
          */
 
-         var opiate_plot = npi_scatterplot("83925", "opiate_reel", "opiate_npi", "opiate")
-         opiate_plot()
-         var chromatography_plot = npi_scatterplot("82542", "chromatography_reel", "chromatography_npi", "chromatography")
-         chromatography_plot()
-         var mass_spectrometry_plot = npi_scatterplot("83789", "mass_spectrometry_reel", "mass_spectrometry_npi", "mass_spectrometry")
-         mass_spectrometry_plot()
+         var opiate_cdf_plot = npi_cumul_scatterplot("83925", "opiate_reel", "opiate_cdf_npi", "opiate")
+         opiate_cdf_plot()
+         var chromatography_cdf_plot = npi_cumul_scatterplot("82542", "chromatography_reel", "chromatography_cdf_npi", "chromatography")
+         chromatography_cdf_plot()
+         var mass_spectrometry_cdf_plot = npi_cumul_scatterplot("83789", "mass_spectrometry_reel", "mass_spectrometry_cdf_npi", "mass_spectrometry")
+         mass_spectrometry_cdf_plot()
+
+         var opiate_pdf_plot = npi_pdf_scatterplot("83925", "opiate_reel", "opiate_pdf_npi", "opiate")
+         opiate_pdf_plot()
+         var chromatography_pdf_plot = npi_pdf_scatterplot("82542", "chromatography_reel", "chromatography_pdf_npi", "chromatography")
+         chromatography_pdf_plot()
+         var mass_spectrometry_pdf_plot = npi_pdf_scatterplot("83789", "mass_spectrometry_reel", "mass_spectrometry_pdf_npi", "mass_spectrometry")
+         mass_spectrometry_pdf_plot()
 
          /*
          var hcpcs_top_npi_data = [];
@@ -245,29 +186,29 @@ Arial,Helvetica,sans-serif
                      "cumul_excess_pmt": +d.cumul_overpmt, "cumul_p_excess_pmt": +d.pct_cumul_overpmt * 100, "cumul_excess_benes": +d.cumul_unique_benes, "cumul_p_excess_benes": +d.pct_cumul_unique_benes * 100, 
                      });
             });
-            var opiate_plot = npi_scatterplot("83925", "opiate_reel", "opiate_npi", "opiate")
+            var opiate_plot = npi_cumul_scatterplot("83925", "opiate_reel", "opiate_npi", "opiate")
             opiate_plot()
-            var chromatography_plot = npi_scatterplot("82542", "chromatography_reel", "chromatography_npi", "chromatography")
+            var chromatography_plot = npi_cumul_scatterplot("82542", "chromatography_reel", "chromatography_npi", "chromatography")
             chromatography_plot()
-            var mass_spectrometry_plot = npi_scatterplot("83789", "mass_spectrometry_reel", "mass_spectrometry_npi", "mass_spectrometry")
+            var mass_spectrometry_plot = npi_cumul_scatterplot("83789", "mass_spectrometry_reel", "mass_spectrometry_npi", "mass_spectrometry")
             mass_spectrometry_plot()
          });
          */
 
          d3.select("body").append("div").attr("id", "legend_reel").attr("class", "legend_reel")
             .style("height", 50).style("background-color", "#CBD8E3").style("margin-top",15).style("margin-bottom",15);
-         d3.select("#legend_reel").append("div").attr("id", "label_legend").attr("class", "legend_bubble").html("LEGEND");
-         d3.select("div#legend_reel").append("svg").attr("id", "legend_reel_svg").style("width", 1024);
+         d3.select("#legend_reel").append("div").attr("id", "label_legend").attr("class", "legend_bubble").html("LEGEND").style("left", function() { return column_0_x; });
+         d3.select("div#legend_reel").append("svg").attr("id", "legend_reel_svg").style("width", 1400);
          d3.select("#legend_reel_svg").append("g").attr("id", "year_linechart_legend")
 
-         var g_stacked = d3.select("#legend_reel_svg").append("g").attr("id", "year_stacked_legend").attr("transform", "translate(415,0)")         
+         var g_stacked = d3.select("#legend_reel_svg").append("g").attr("id", "year_stacked_legend").attr("transform", function() { return "translate(" + column_2_x + ",0)"; })         
             g_stacked.append("rect").attr("y", 3).attr("fill", "rgba(255,255,255,0.55)").attr("width", 150).attr("height", 43)
-            g_stacked.append("rect").attr("x", 5).attr("y", 9).attr("fill", "#7c152a").attr("width", 20).attr("height", 15);
-            g_stacked.append("text").attr("x", 30).attr("y", 19).attr("fill", "#333").text("MUE Violations").attr("shape-rendering", "crispEdges");
-            g_stacked.append("rect").attr("x", 5).attr("y", 27).attr("fill", "#e6ce9d").attr("width", 20).attr("height", 15);
-            g_stacked.append("text").attr("x", 30).attr("y", 39).attr("fill", "#333").text("Not in Excess").attr("shape-rendering", "crispEdges");
+            g_stacked.append("rect").attr("x", 25).attr("y", 9).attr("fill", "#7c152a").attr("width", 20).attr("height", 15);
+            g_stacked.append("text").attr("x", 50).attr("y", 19).attr("fill", "#333").text("MUE Violations").attr("shape-rendering", "crispEdges");
+            g_stacked.append("rect").attr("x", 25).attr("y", 27).attr("fill", "#e6ce9d").attr("width", 20).attr("height", 15);
+            g_stacked.append("text").attr("x", 50).attr("y", 39).attr("fill", "#333").text("Not in Excess").attr("shape-rendering", "crispEdges");
 
-         var g_scatter = d3.select("#legend_reel_svg").append("g").attr("id", "npi_scatter_legend").attr("transform", "translate(600,0)")
+         var g_scatter = d3.select("#legend_reel_svg").append("g").attr("id", "npi_scatter_legend").attr("transform", function() { return "translate(" + column_4_x + ",0)";})
             g_scatter.append("rect").attr("y", 3).attr("fill", "rgba(255,255,255,0.55)").attr("width", 225).attr("height", 43);
 
             g_scatter.append("circle").attr("cx", 48).attr("cy", 15).attr("fill", "rgb(139,0,0)").attr("r", 4).attr("data-series", "2010");
@@ -307,42 +248,14 @@ Arial,Helvetica,sans-serif
          d3.select("#legend_reel_svg").append("rect")
             .attr("fill", "url(#grad1)")
             .attr("width", 135).attr("height", 5)            
-            .attr("x", 775).attr("y", 20);
+            .attr("x", function() { return column_4_x + 175; }).attr("y", 20);
 
          d3.select("#legend_reel_svg").append("text")
             .style("shape-rendering", "crispEdges").attr("fill", "#444")
             .text("<-- click year to display/hide data series from plot")
             .attr("id","legend_instructions")
-            .attr("x", 775).attr("y", 20);
+            .attr("x", function() { return column_4_x + 175; }).attr("y", 20);
 
-
-
-         /*
-         line_interp("83925", 2010);
-         function line_interp(hcpcs_id, year_id) {
-            var year_top_x_data = npi_code_filt_data.filter(function(d) { return (d.year == year_id) & (d.hcpcs == hcpcs_id); });
-            var scatter_line = d3.svg.line()
-               .x(function(d) { return x_scale(d.top_x) + x_plot_displace + x_padding; })
-               .y(function(d) { return y_scale(d.cumul_p_excess_pmt) + y_padding; })
-               .interpolate("basis");
-
-            d3.select("g#opiate_npi_scatter_pane")
-               .append("path")
-               .style("shape-rendering", "auto")
-               .attr("d", function() { return scatter_line(year_top_x_data); })
-               .attr("id", "interpolate")
-               .attr("fill", "transparent")
-               .attr("stroke-dasharray","2,2")
-               .attr("opacity", 0.1)
-               .attr("stroke-width", 2)
-               .attr("stroke", function() {
-                  if (year_id == 2010) { return "rgb(139,0,0)"; }
-                  else if (year_id == 2011) { return "rgb(232,151,70)"; }
-                  else if (year_id == 2012) { return "rgb(153,197,169)"; }
-                  else if (year_id == 2013) { return "rgb(0,68,153)"; }
-               });
-         }
-         */
       </script>
       <svg height = "0px" width = "0px">
         <defs>

@@ -1,67 +1,10 @@
-// Smart Tooltip Locator
-// Axis labels
-/*
-Helvetica Neue, Helvetica, Arial, sans-serif
-• Data analysis is at least as important as visually displaying it; there are tools that help with this process (Ch. 6)
-Helvetica, Arial, sans-serif
-Arial, Helvetica, sans-serif
-"Lucida Sans Unicode", "Lucida Grande", sans-serif
-Tahoma, Geneva, sans-serif
-"Courier New", Courier, monospace
-"Palatino Linotype", "Book Antiqua", Palatino, serif
-"Times New Roman", Times, serif
-Lucida Sans Unicode.
-Use inkscape to fix up the bubbles
-jqueryui
-MDN orange; #de5d0a
-YouTube Channel Borders (Blue)
-header
-border-color #1b7fcc
-background #1b7fcc
-
-border 1px solid #5f8fbf
-border-top 1px solid #6f9fcf
-background #6898c9
-
-another blue #2793e6
-
-bright blue:
-#00daee
-#00daee
-#11defa
-
-bright orange:
-#f5b232
-
-New Yorker Footer area
-Heading: #000
-Arial,Helvetica,sans-serif
-font-size: 10px
-
-#999
-9px Verdana,Geneva,sans-serif
-
-Subheading: #626262
-9px Verdana,Geneva,sans-serif
-
-NYTIMES 
-a:visited #666699
-a: #004276
-#333
-border color: #d3d3d3
-1px solid #ccc
-#e6eff8
-
-rgb(230, 239, 248)
-
-pointillism pattern.
-
-*/
+/* Annotation tab to right of Line Chart*/
 function reel_label(hcpcs_div, code) {
    function gen_reel_label() {
       d3.select("div#" + hcpcs_div).selectAll("div#bubble_" + code)
          .data(hcp_select.filter(function(d) { return d.hcpcs == code; }))
          .enter().append("div")
+         .style("left", function() { return column_0_x; })
          .attr("id", function(d, i) { return "bubble_" + code; })
          .attr("class", "hcpcs_bubble")
          .style("margin-top", 4).style("margin-bottom", 4).style("margin-left", 4);
@@ -107,7 +50,7 @@ function year_linechart(hcpcs, line_div_id, plot_id, codename) {
       svg
          .append("g")
          .attr("id", function() { return plot_id + "_line_pane"; })
-         .attr("transform", function() { return "translate(175,0)"});
+         .attr("transform", function() { return "translate(" + column_1_x + ",0)"});
 
       d3.selectAll("#" + plot_id + "_line_pane")
          .append("rect")
@@ -251,7 +194,8 @@ function year_linechart(hcpcs, line_div_id, plot_id, codename) {
    return gen_linechart;
 }
 
-function npi_scatterplot(hcpcs, scatter_div_id, plot_id, codename) {
+/* --------------------------------- PDF Scatter Plot ------------------------------------*/
+function npi_pdf_scatterplot(hcpcs, scatter_div_id, plot_id, codename) {
    var x_padding = 30, y_padding = 15;
    var x_plot_displace = 10, y_plot_displace = 5;
    var width = 200;
@@ -280,7 +224,7 @@ function npi_scatterplot(hcpcs, scatter_div_id, plot_id, codename) {
       svg
          .append("g")
          .attr("id", function() { return plot_id + "_scatter_pane"; })
-         .attr("transform", function() { return "translate(600,0)"});
+         .attr("transform", function() { return "translate(" + column_4_x + ",0)"});
 
       d3.selectAll("#" + plot_id + "_scatter_pane")
          .append("rect")
@@ -312,10 +256,10 @@ function npi_scatterplot(hcpcs, scatter_div_id, plot_id, codename) {
          .call(y_axis);
 
       d3.selectAll("#" + plot_id + "_scatter_pane")
-         .append("text").text("Top X Providers")
+         .append("text").text("Provider Ranking in Overpayment")
          .style("shape-rendering", "crispEdges")
          .attr("fill", "#666")
-         .attr("x", 85).attr("y", function() { return height + 33; });
+         .attr("x", 45).attr("y", function() { return height + 33; });
 
       d3.select("g#" + plot_id + "_scatter_pane").selectAll("circle")
          .data(npi_code_filt_data)
@@ -331,7 +275,7 @@ function npi_scatterplot(hcpcs, scatter_div_id, plot_id, codename) {
          .attr("stroke-width", 7)
          .attr("stroke", "transparent")
          .attr("cx", function(d) { return x_scale(d.top_x) + x_plot_displace + x_padding; })
-         .attr("cy", function(d) { return y_scale(d.cumul_p_excess_pmt) + y_padding ; })
+         .attr("cy", function(d) { return y_scale(d.npi_p_excess_pmt) + y_padding ; })
          .attr("r", 2);
       /*
       auc_shader(5);
@@ -353,7 +297,6 @@ function npi_scatterplot(hcpcs, scatter_div_id, plot_id, codename) {
       }
       */
       // More generally, a generate annotation function
-
       d3.select("g#" + plot_id + "_scatter_pane").selectAll("circle")
          .on("mouseover", function() { 
             d3.select(this).classed("scatter_hover", 1)
@@ -420,7 +363,7 @@ function npi_scatterplot(hcpcs, scatter_div_id, plot_id, codename) {
       function gen_npi_stat_table(npi_value, year_id) {
          var table_data = npi_code_filt_data.filter(function(d) { return (d.npi == npi_value) & (+d.year == year_id); });
          d3.select("#" + scatter_div_id).select("#" + codename + "_npi_table")
-            .style("width", 275).style("left", 840)
+            .style("width", 275).style("left", function() { return column_4_x + 240; })
             .classed("table_click", 1)
             .style("top", function() {
                if (codename == "opiate") { return 50; }
@@ -462,20 +405,134 @@ function npi_scatterplot(hcpcs, scatter_div_id, plot_id, codename) {
          d3.select("#" + scatter_div_id).select("#" + codename + "_npi_table")         
             .classed("table_click", 0)
       }
+   }
+   return gen_scatterplot;
+}
 
-      /*
-      d3.select("#" + plot_id + "_scatter_pane").append("g").attr("id","chart_ttip");
-      function gen_chart_tip(npi_value) {
-         var charttip_data = npi_code_filt_data.filter(function(d) { return (d.npi == npi_value); });
-         d3.select("g#chart_ttip").selectAll("line")
-            .data(charttip_data).enter().append("line")
-            .attr("x1", function(d) { return x_scale(d.top_x) + x_plot_displace + x_padding; })
-            .attr("x2", function(d) { return x_scale(20) + x_plot_displace + x_padding; })
-            .attr("y1", function(d) { return y_scale((d.cumul_p_excess_pmt)/2) + y_padding; })
-            .attr("y2", function(d) { return y_scale((d.cumul_p_excess_pmt)/2) + y_padding; })
-            .attr("stroke", "#cc181e");
+/* --------------------------------- Cumulative Interpolated Curve Plot ------------------------------------*/
+function npi_cumul_scatterplot(hcpcs, scatter_div_id, plot_id, codename) {
+   var x_padding = 30, y_padding = 15;
+   var x_plot_displace = 10, y_plot_displace = 5;
+   var width = 200;
+   var height = 160;
+   var x_domain = [1,10];
+   var y_domain = [100, 0];
+   var x_scale = d3.scale.linear().domain(x_domain).range([0, width - x_padding]);
+   var y_scale = d3.scale.linear().domain(y_domain).range([0, height - y_padding]);
+
+   function gen_scatterplot() {
+      var npi_code_filt_data = hcpcs_top_npi_data.filter(function(d) { return d.hcpcs == hcpcs; });
+      var x_axis = d3.svg.axis().scale(x_scale)
+         .orient("bottom")
+         .ticks(10).tickSubdivide(4).tickSize(6,3,0);
+
+      var y_axis = d3.svg.axis().scale(y_scale)
+         .orient("left")
+         .ticks(6).tickSubdivide(4).tickSize(6,3,0)
+         .tickFormat(function(d) { return d + "%"; } );
+
+      var svg = d3.select("#" + scatter_div_id + "_svg")
+         .attr("shape-rendering", "crispEdges")
+         .attr("width", 225)
+         .attr("height", 200);
+      
+      svg
+         .append("g")
+         .attr("id", function() { return plot_id + "_scatter_pane"; })
+         .attr("transform", function() { return "translate(" + column_3_x + ",0)"});
+
+      d3.selectAll("#" + plot_id + "_scatter_pane")
+         .append("rect")
+         .attr("fill", "rgba(255,255,255,0.55)")
+         .attr("x", 0)
+         .attr("y", 0)
+         .attr("height", 400)
+         .attr("width", 225);
+
+      d3.select("#" + plot_id + "_scatter_pane")
+         .append("g").attr("class", "x axis")
+         .append("line").attr("id", "axis")
+         .attr("x1", function() { return 0; })
+         .attr("y1", 0)
+         .attr("x2", function() { return width - x_padding; })
+         .attr("y2", 0)
+      svg.select("#" + plot_id + "_scatter_pane").select(".x.axis")
+         .attr("transform", function() { return "translate(" + (x_plot_displace + x_padding) + "," + (height) + ")"})
+         .call(x_axis);
+      d3.select("#" + plot_id + "_scatter_pane")
+         .append("g").attr("class", "y axis")
+         .append("line").attr("id", "axis")
+         .attr("x1", 0)
+         .attr("y1", 0)
+         .attr("x2", 0)
+         .attr("y2", function() { return height - y_padding; })
+      svg.select("#" + plot_id + "_scatter_pane").select(".y.axis")
+         .attr("transform", function() { return "translate(" + (x_plot_displace + x_padding) + "," + (y_padding) + ")"})
+         .call(y_axis);
+
+      d3.selectAll("#" + plot_id + "_scatter_pane")
+         .append("text").text("Top X Providers")
+         .style("shape-rendering", "crispEdges")
+         .attr("fill", "#666")
+         .attr("x", 85).attr("y", function() { return height + 33; });
+          
+      line_interp(plot_id, 2010);
+      line_interp(plot_id, 2011);
+      line_interp(plot_id, 2012);
+      line_interp(plot_id, 2013);
+      d3.select("g#" + plot_id + "_scatter_pane")
+         .append("text").attr("id", function() { return plot_id + "yr_label"; })
+      d3.selectAll("#" + plot_id + "_tp_yr_path")
+         .on("mousemove", function() {
+            d3.select("#" + plot_id + "_" + d3.select(this).attr("data-year") + "_yr_path").classed("yr_path_hover", 1);
+            var mouse_container = d3.select("#" + plot_id + "_scatter_pane");
+            d3.select("#" + plot_id + "yr_label").text(d3.select(this).attr("data-year"))
+               .attr("fill", "#333").attr("text-anchor", "middle")
+               .attr("x", d3.mouse(mouse_container.node())[0]).attr("y", d3.mouse(mouse_container.node())[1] - 5);
+            })
+         .on("mousedown", function() { 
+            d3.select("#" + plot_id + "_" + d3.select(this).attr("data-year") + "_yr_path").classed("yr_path_hover", 1);
+            d3.select("#" + plot_id + "_" + d3.select(this).attr("data-year") + "_yr_path").classed("yr_path_click", 1);
+            })
+         .on("mouseup", function() { d3.select("#" + plot_id + "_" + d3.select(this).attr("data-year") + "_yr_path").classed("yr_path_click", 0); })
+         .on("mouseout", function() {
+            d3.select("#" + plot_id + "_" + d3.select(this).attr("data-year") + "_yr_path").classed("yr_path_hover", 0);
+            d3.select("#" + plot_id + "_" + d3.select(this).attr("data-year") + "_yr_path").classed("yr_path_click", 0);
+            d3.select("#" + plot_id + "yr_label").text("");
+            });
+
+      function line_interp(plot_id, year_id) {
+         var year_top_x_data = npi_code_filt_data.filter(function(d) { return (d.year == year_id); });
+         var scatter_line = d3.svg.line()
+            .x(function(d) { return x_scale(d.top_x) + x_plot_displace + x_padding; })
+            .y(function(d) { return y_scale(d.cumul_p_excess_pmt) + y_padding; })
+            .interpolate("basis");
+
+         d3.select("g#" + plot_id + "_scatter_pane")
+            .append("path").style("shape-rendering", "auto")
+            .attr("d", function() { return scatter_line(year_top_x_data); })
+            .attr("id", function() { return plot_id + "_" + year_id + "_yr_path"; })
+            .attr("fill", "none")
+            .attr("opacity", 0.75)
+            .attr("stroke-width", 2)
+            .attr("data-year", year_id)
+            .attr("stroke", function() {
+               if (year_id == 2010) { return "rgb(139,0,0)"; }
+               else if (year_id == 2011) { return "rgb(232,151,70)"; }
+               else if (year_id == 2012) { return "rgb(153,197,169)"; }
+               else if (year_id == 2013) { return "rgb(0,68,153)"; }
+            });
+         
+         d3.select("g#" + plot_id + "_scatter_pane")
+            .append("path").style("shape-rendering", "auto")
+            .attr("d", function() { return scatter_line(year_top_x_data); })
+            .attr("id", function() { return plot_id + "_tp_yr_path"; })
+            .attr("fill", "none")
+            .attr("stroke-width", 8)
+            .attr("data-year", year_id)
+            .attr("stroke", "transparent");
+
       }
-         */      
    }
    return gen_scatterplot;
 }
@@ -517,7 +574,7 @@ function stackedbar(hcpcs, stacked_div_id, plot_id, codename) {
       svg
          .append("g")
          .attr("id", function() { return plot_id + "_stacked_pane"; })
-         .attr("transform", function() { return "translate(415,0)"});
+         .attr("transform", function() { return "translate(" + column_2_x + ",0)"});
 
       d3.selectAll("#" + plot_id + "_stacked_pane")
          .append("rect")
