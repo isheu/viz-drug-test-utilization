@@ -1,3 +1,10 @@
+// Positioning
+// Annotation
+// Provider metrics table
+// Link line and scatter
+// Legend for line
+
+
 function reel_label(hcpcs_div, code) {
    function gen_reel_label() {
       d3.select("div#" + hcpcs_div).selectAll("div#bubble_" + code)
@@ -314,14 +321,14 @@ function npi_pdf_scatterplot(hcpcs, scatter_div_id, plot_id, codename) {
                   .attr("stroke-width", 7)
                   .classed("scatter_click", 0)
                remove_chart_tip("chart_ttip_clicked");
-               remove_npi_stat_table();
+               remove_npi_detail_table();
                var store_npi = d3.select(this).data()[0].npi;
                d3.select("g#" + plot_id + "_scatter_pane").selectAll("circle").filter(function(d, i) { return (d.npi == store_npi); })
                   .attr("r", 6)
                   .attr("stroke-width", 1)
                   .classed("scatter_click", 1)
                gen_chart_tip("chart_ttip_clicked", d3.select(this).data()[0].npi, d3.select(this).attr("cx"), d3.select(this).attr("cy"))
-               gen_npi_stat_table(d3.select(this).data()[0].npi, d3.select(this).data()[0].year)
+               gen_npi_detail_table(d3.select(this).data()[0].name)
             }
             else {
                d3.select("g#" + plot_id + "_scatter_pane").selectAll("circle.scatter_click")
@@ -329,7 +336,7 @@ function npi_pdf_scatterplot(hcpcs, scatter_div_id, plot_id, codename) {
                   .attr("stroke-width", 7)
                   .classed("scatter_click", 0)
                remove_chart_tip("chart_ttip_clicked");
-               remove_npi_stat_table();
+               remove_npi_detail_table();
             }
          });
       
@@ -633,6 +640,38 @@ function stackedbar(hcpcs, stacked_div_id, plot_id, codename) {
    return gen_stackedbar;
 }
 
+
+function gen_npi_detail_table(selected_name) {
+   $( "input" ).val(selected_name);
+   $( "#npi_detail_table" ).show("blind", 250);
+   $( "#npi_detail_table_bg" ).show("blind", 250);
+   
+   d3.select("div#npi_detail_table").append("div").attr("id", "detail_heading").style("border-bottom", "1 solid #406584")
+   d3.select("div#npi_detail_table").append("div").attr("id", "detail_body")   
+   var npi_detail_data = hcpcs_top_npi_data.filter(function(d) { return d.name == selected_name; });
+   
+   var ul_heading = d3.select("div#detail_heading").append("ul")
+   ul_heading.append("li").classed("specialty", 1).text(npi_detail_data[0].classification)
+   var table_body = d3.select("div#detail_body").append("table").attr("id", "detail_body_table").attr("width", 300).style("padding-left", 3);
+   var table_thead = table_body.append("thead")
+   table_thead.append("td").attr("width", "44%").html("")
+   table_thead.append("td").attr("width", "14%").html("'10")
+   table_thead.append("td").attr("width", "14%").html("'11")
+   table_thead.append("td").attr("width", "14%").html("'12")
+   table_thead.append("td").attr("width", "14%").html("'13")
+
+   hcpcs_cd_list.forEach(function(code) {
+      var working_hcp_npi_detail_data = npi_detail_data.filter(function(d) { return d.hcpcs == code; });
+   })
+}
+function remove_npi_detail_table() {
+   d3.select("div#detail_heading").remove()
+   d3.select("div#detail_body").remove()
+   $( "#npi_detail_table" ).hide();
+   $( "#npi_detail_table_bg" ).hide();
+   $( "input" ).val("CHOOSE A PROVIDER");
+}
+
 // ComboBox Implementation
 $(function() {
    $.widget("ui.combobox", {
@@ -665,10 +704,12 @@ $(function() {
                   }) );
                },
                select: function(event, ui) {
+                  remove_npi_detail_table()
                   ui.item.option.selected = true;
                   self._trigger( "selected", event, {
                      item: ui.item.option
                   });
+                  gen_npi_detail_table($("select").val())
                },
                change: function(event, ui) {
                   if ( !ui.item ) {
@@ -686,6 +727,7 @@ $(function() {
                         return false;
                      }
                   }
+                  
                }
             })
             .addClass("li_sel_value ui-widget ui-widget-content ui-corner-left ui-state-default");

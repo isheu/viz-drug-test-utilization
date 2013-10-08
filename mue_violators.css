@@ -20,6 +20,48 @@
    background: none;
 }
 
+ul {
+   margin-top: 5;
+   margin-bottom: 5;
+   padding-left: 5;
+}
+
+li.name {
+   list-style-type: none;
+   font-size: 12px;
+   font-weight: bold;
+   color: #333;
+}
+li.specialty {
+   list-style-type: none;  
+   font-family: arial, sans-serif;
+   font-size: 11px;
+   color: #406584;
+}
+
+div.not_shown {
+   display: none;
+}
+
+div.npi_detail_div_bg {
+   position: absolute;
+   background-image: url("patterns/bg-pinstripe.png");
+   opacity: 0.4;
+   width: 300;
+   height: 602;
+   top: 63;
+   left: 1420; 
+}
+
+div.npi_detail_div {
+   position: absolute;
+   opacity: 1;   
+   width: 300;
+   height: 602;
+   top: 63;
+   left: 1420;    
+}
+
 body {
    font-family: arial, sans-serif;
    font-size: 11px;
@@ -108,10 +150,8 @@ div.annotation {
 }
 
 thead td {
-   border-bottom: 1 solid #406584;
-   font-family: arial, sans-serif;
-   font-size: 12px;
-   font-weight: bold;
+   text-align: center;
+   font-size: 10.5px;
 }
 
 td.metric_value {

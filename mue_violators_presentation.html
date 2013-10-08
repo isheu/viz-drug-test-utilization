@@ -25,6 +25,8 @@
          var column_4_x = 1150;
          var column_5_x = 1400;
          
+         var hcpcs_cd_list = ["83925", "83789", "82542"];
+         
          /*
          FIX UP the Excel Graphics
          Legend for the lines
@@ -56,8 +58,6 @@
          d3.select("body").append("div").attr("id", "headline").attr("class", "headline")
             .style("background-color", "#eee").style("height",31).style("padding-top", 5).style("margin-top",0).style("margin-bottom",0)
             .style("border-bottom", "1 solid rgb(255,153,0)")
-            //.style("background-color", "rgb(255, 153, 0)")
-            /// #bbb #fff!important 15px
             .style("text-align", "center")
             .style("font-size", 12)
             //.style("text-transform", "uppercase")
@@ -109,8 +109,7 @@
          cbox_providers.selectAll("option")
             .data(top_npi_info).enter().append("option")
             .attr("value", function(d) { return d.name; })
-            .text(function(d) { return d.name; });
-         
+            .text(function(d) { return d.name; });        
          $(function() { $("select").combobox(); });
 
 
@@ -213,7 +212,7 @@
          d3.select("body").append("div").attr("id", "legend_reel").attr("class", "legend_reel")
             .style("height", 50).style("background-color", "#CBD8E3").style("margin-top",15).style("margin-bottom",15);
          d3.select("#legend_reel").append("div").attr("id", "label_legend").attr("class", "legend_bubble").html("LEGEND").style("left", function() { return column_0_x; });
-         d3.select("div#legend_reel").append("svg").attr("id", "legend_reel_svg").style("width", 1400);
+         d3.select("div#legend_reel").append("svg").attr("id", "legend_reel_svg").style("width", 1600);
          d3.select("#legend_reel_svg").append("g").attr("id", "year_linechart_legend")
 
          var g_stacked = d3.select("#legend_reel_svg").append("g").attr("id", "year_stacked_legend").attr("transform", function() { return "translate(" + column_2_x + ",0)"; })         
@@ -223,6 +222,20 @@
             g_stacked.append("rect").attr("x", 25).attr("y", 27).attr("fill", "#e6ce9d").attr("width", 20).attr("height", 15);
             g_stacked.append("text").attr("x", 50).attr("y", 39).attr("fill", "#333").text("Not in Excess").attr("shape-rendering", "crispEdges");
 
+
+         var g_scatter = d3.select("#legend_reel_svg").append("g").attr("id", "npi_line_legend").attr("transform", function() { return "translate(" + column_3_x + ",0)";})
+            g_scatter.append("rect").attr("y", 3).attr("fill", "rgba(255,255,255,0.55)").attr("width", 225).attr("height", 43);
+            g_scatter.append("rect").attr("x", 58).attr("y", 13).attr("width", 15).attr("height", 3).attr("fill", "rgb(139,0,0)").attr("r", 4).attr("data-series", "2010");
+            g_scatter.append("text").attr("x", 80).attr("y", 19).attr("fill", "#333").text("2010").attr("shape-rendering", "crispEdges").attr("data-series", "2010");
+            g_scatter.append("rect").attr("x", 58).attr("y", 31).attr("width", 15).attr("height", 3).attr("fill", "rgb(232,151,70)").attr("r", 4).attr("data-series", "2011");
+            g_scatter.append("text").attr("x", 80).attr("y", 39).attr("fill", "#333").text("2011").attr("shape-rendering", "crispEdges").attr("data-series", "2011");
+
+            g_scatter.append("rect").attr("x", 130).attr("y", 13).attr("width", 15).attr("height", 3).attr("fill", "rgb(153,197,169)").attr("r", 4).attr("data-series", "2012");
+            g_scatter.append("text").attr("x", 152).attr("y", 19).attr("fill", "#333").text("2012").attr("shape-rendering", "crispEdges").attr("data-series", "2012");
+            g_scatter.append("rect").attr("x", 130).attr("y", 31).attr("width", 15).attr("height", 3).attr("fill", "rgb(0,68,153)").attr("r", 4).attr("data-series", "2013");
+            g_scatter.append("text").attr("x", 152).attr("y", 39).attr("fill", "#333").text("2013").attr("shape-rendering", "crispEdges").attr("data-series", "2013");
+
+         
          var g_scatter = d3.select("#legend_reel_svg").append("g").attr("id", "npi_scatter_legend").attr("transform", function() { return "translate(" + column_4_x + ",0)";})
             g_scatter.append("rect").attr("y", 3).attr("fill", "rgba(255,255,255,0.55)").attr("width", 225).attr("height", 43);
 
@@ -270,6 +283,8 @@
             .text("<-- click year to display/hide data series from plot")
             .attr("id","legend_instructions")
             .attr("x", function() { return column_4_x + 175; }).attr("y", 20);
+         d3.select("body").append("div").attr("id", "npi_detail_table_bg").attr("class", "npi_detail_div_bg").classed("not_shown", 1);
+         d3.select("body").append("div").attr("id", "npi_detail_table").attr("class", "npi_detail_div").classed("not_shown", 1);
 
       </script>
       <svg height = "0px" width = "0px">
