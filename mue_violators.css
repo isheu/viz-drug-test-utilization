@@ -1,3 +1,43 @@
+a.gen_annotation_clicked {
+   text-decoration: none;   
+   font-weight: bold;   
+   padding: 2px 3px;
+   margin: 0 -1px 0 0;   
+   background-color: #FDFDFD;
+   box-shadow: inset 0px 0px 7px #CCC;
+   border: 1px solid #a4a4a4;
+   color: #333;
+}
+
+a.gen_annotation_active {
+   text-decoration: none;   
+   font-weight: bold;   
+   padding: 2px 3px;
+   margin: 0 -1px 0 0;   
+   background-color: #FDFDFD;
+   box-shadow: inset 0px 0px 7px #CCC;
+   border: 1px solid #a4a4a4;
+   color: #666;
+}
+
+a.gen_annotation_inactive {
+   background-color: white;  
+   color: #a8a8a8;
+   padding: 2px 3px;
+   margin: 0 -1px 0 0;
+   text-shadow: 0 0 1px white;
+   box-shadow: 1px 1px 0 #efefef;
+   border: 1px solid #ccc;
+   font-weight: bold;
+   text-decoration: none;
+}
+
+.ui-autocomplete {
+    max-height: 200px;
+    overflow-y: auto;
+    overflow-x: hidden;
+}
+
 .combobox_button {
    margin-bottom: 4px;
    height: 20px;
@@ -47,7 +87,7 @@ div.npi_detail_div_bg {
    position: absolute;
    background-image: url("patterns/bg-pinstripe.png");
    opacity: 0.4;
-   width: 300;
+   width: 315;
    height: 602;
    top: 63;
    left: 1420; 
@@ -56,7 +96,7 @@ div.npi_detail_div_bg {
 div.npi_detail_div {
    position: absolute;
    opacity: 1;   
-   width: 300;
+   width: 315;
    height: 602;
    top: 63;
    left: 1420;    
@@ -88,7 +128,6 @@ div.hcpcs_bubble {
    height: 190;
    width: 100;
    background-color: #406584;
-   /* background-image: -webkit-linear-gradient(top, rgb(53, 64, 95) 0%, rgb(34, 43, 71) 100%); */
    border-style: solid;
    border-color: rgba(80,50,15,0.2);
    border-width: 1px;
@@ -114,7 +153,7 @@ div.legend_bubble {
 }
 
 .scatter_hover {
-   fill: #7c152a;
+   fill: #7c152a;   
 }
 .scatter_click {
    fill: #e6ce9d;
@@ -149,7 +188,9 @@ div.annotation {
    border-color: #406584;
 }
 
-thead td {
+
+.year_labels {
+   color: black;
    text-align: center;
    font-size: 10.5px;
 }

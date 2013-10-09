@@ -29,10 +29,7 @@
          
          /*
          FIX UP the Excel Graphics
-         Legend for the lines
-         link from line to scatter
          drop down. select metric displayed. select a provider. Visual indicator of column being manipulated
-
          some sort of static tag at the side? persistent toolbar
 
          var chroma_interpolator = chroma.interpolate.bezier(['blue', 'white']);
@@ -49,7 +46,8 @@
 
          var price_formatter = d3.format(">,s");
          var price_formatter_full = d3.format(",02d");
-         var percent_formatter = d3.format("2d");
+         var percent_formatter = d3.format("02d");
+         var comma_formatter = d3.format(",");
          var hcp_select = [
             {"hcpcs":"83925", "description":"Opiates", "annotation_line": "Annual testing for opiates tripled from 2010 to 2012"}, 
             {"hcpcs":"82542", "description":"Column Chromatography", "annotation_line": "Annual testing using column chromatography more than doubled from 2010 to 2012"}, 
@@ -60,7 +58,6 @@
             .style("border-bottom", "1 solid rgb(255,153,0)")
             .style("text-align", "center")
             .style("font-size", 12)
-            //.style("text-transform", "uppercase")
             .style("font-family", "Lucida Sans")
             .html("Utilization and MUE Violations of Codes 83925, 82542, and 83780");
 
@@ -107,12 +104,15 @@
             .style("position","absolute").style("left", 1420).style("top", 37)
             .append("select").attr("id", "cbox_providers").style("width", 225);
          cbox_providers.selectAll("option")
-            .data(top_npi_info).enter().append("option")
+            .data(top_npi_names).enter().append("option")
             .attr("value", function(d) { return d.name; })
             .text(function(d) { return d.name; });        
          $(function() { $("select").combobox(); });
-
-
+         $(function() { $("input:text").focus(function() { 
+            if (this.value == "CHOOSE A PROVIDER") {
+               this.value = ""; 
+            }
+         }) });
 
          d3.select("body").append("div").attr("id", "opiate_reel").attr("class", "code_reel")
             .style("height", 200).style("background-color", "#C5D0D4").style("margin-top",0).style("margin-bottom",0).style("border-top", "1 solid #999");
@@ -286,6 +286,48 @@
          d3.select("body").append("div").attr("id", "npi_detail_table_bg").attr("class", "npi_detail_div_bg").classed("not_shown", 1);
          d3.select("body").append("div").attr("id", "npi_detail_table").attr("class", "npi_detail_div").classed("not_shown", 1);
 
+         d3.select("body").append("div").attr("id","show_annotation")
+            .style("position", "absolute")
+            .style("margin", 0)
+            .style("padding", 0)
+            .style("top", 42)
+            .style("left", column_0_x)
+            .style("height", 18)
+            .style("width", 102)
+            .style("margin-left",3)            
+            .append("a").html("Show/Hide Notes").classed("gen_annotation_inactive",1)
+
+         d3.select("div#show_annotation").select("a")
+            .on("mouseover", function() {
+               d3.select(this)
+                  .style("cursor", "pointer")
+                  .classed("gen_annotation_inactive",0)
+                  .classed("gen_annotation_active",1)
+            })
+            .on("click", function() {             
+               if (!d3.select(this).classed("gen_annotation_clicked")) {
+                  d3.select(this)
+                     .style("cursor", "default")
+                     .classed("gen_annotation_clicked",1)
+                     .classed("gen_annotation_inactive",0)
+                     .classed("gen_annotation_active",0)
+               }
+               else {
+                  d3.select(this)
+                     .style("cursor", "pointer")
+                     .classed("gen_annotation_clicked",0)
+                     .classed("gen_annotation_inactive",1)
+                     .classed("gen_annotation_active",0) 
+               }
+            })            
+            .on("mouseout", function() {
+               if (!d3.select(this).classed("gen_annotation_clicked")) {
+                  d3.select(this)
+                     .classed("gen_annotation_inactive",1)
+                     .classed("gen_annotation_active",0)
+               }
+            });            
+
       </script>
       <svg height = "0px" width = "0px">
         <defs>
@@ -302,4 +344,3 @@
       </svg>      
    </body>
 </html>
-

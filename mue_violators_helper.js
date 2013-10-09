@@ -1,9 +1,6 @@
-// Positioning
-// Annotation
+// Positioning *
+// Annotation *
 // Provider metrics table
-// Link line and scatter
-// Legend for line
-
 
 function reel_label(hcpcs_div, code) {
    function gen_reel_label() {
@@ -64,8 +61,9 @@ function year_linechart(hcpcs, line_div_id, plot_id, codename) {
          .attr("x", 0).attr("y", 0)
          .attr("height", 199)
          .attr("width", 200)
+         /*         
          .on("mouseover", function() { d3.select(this).attr("stroke", "#999") })         
-         .on("mouseout", function() { d3.select(this).attr("stroke", "transparent") })
+         .on("mouseout", function() { d3.select(this).attr("stroke", "transparent") });
          .on("click", function() { 
             if (!d3.select(this).classed("ann_clicked")) {
                d3.select(this).classed("ann_clicked", 1)
@@ -91,14 +89,14 @@ function year_linechart(hcpcs, line_div_id, plot_id, codename) {
                   .transition().duration(500)
                   .attr("transform", function() { return "translate(600,0)"}) 
             }
-         });
+         }); */
 
       d3.selectAll("#" + plot_id + "_line_pane")
          .append("text").text("Year")
          .style("shape-rendering", "crispEdges")
          .attr("fill", "#666")
          .attr("x", 100).attr("y", function() { return height + 33; });
-
+      /*
       function annotate_chart(codename, ann_div_id, content) {
          function gen_annotation() {
             d3.select("div#" + ann_div_id)
@@ -123,6 +121,7 @@ function year_linechart(hcpcs, line_div_id, plot_id, codename) {
          return gen_annotation;
       }
       function remove_annotation(ann_div_id) { d3.select("div#" + ann_div_id).remove(); }
+      */
 
       d3.select("#" + plot_id + "_line_pane")
          .append("g").attr("class", "x axis")
@@ -271,7 +270,7 @@ function npi_pdf_scatterplot(hcpcs, scatter_div_id, plot_id, codename) {
          .data(npi_code_filt_data)
          .enter().append("circle")
          .style("shape-rendering", "auto")
-         .attr("id", "scatter_pts")         
+         .attr("id", "scatter_pts")
          .attr("fill", function(d) {
             if (d.year == 2010) { return "rgb(139,0,0)"; }
             else if (d.year == 2011) { return "rgb(232,151,70)"; }
@@ -316,10 +315,16 @@ function npi_pdf_scatterplot(hcpcs, scatter_div_id, plot_id, codename) {
             })
          .on("click", function() {
             if (!d3.select(this).classed("scatter_click")) {
+               /*
                d3.select("g#" + plot_id + "_scatter_pane").selectAll("circle.scatter_click")
                   .attr("r", 2)
                   .attr("stroke-width", 7)
                   .classed("scatter_click", 0)
+                  */
+               d3.selectAll("circle.scatter_click")
+                  .attr("r", 2)
+                  .attr("stroke-width", 7)
+                  .classed("scatter_click", 0)                  
                remove_chart_tip("chart_ttip_clicked");
                remove_npi_detail_table();
                var store_npi = d3.select(this).data()[0].npi;
@@ -361,56 +366,13 @@ function npi_pdf_scatterplot(hcpcs, scatter_div_id, plot_id, codename) {
             .attr("fill", "#333");
       }
       function remove_chart_tip(ttip_id) { 
+         /*
          d3.select("#" + plot_id + "_scatter_pane").select("g#" + ttip_id).selectAll("text").remove()
          d3.select("#" + plot_id + "_scatter_pane").select("g#" + ttip_id).selectAll("rect").remove();
+         */
+         d3.selectAll("g#" + ttip_id).selectAll("text").remove()
+         d3.selectAll("g#" + ttip_id).selectAll("rect").remove();
          };
-
-      d3.select("#" + scatter_div_id).append("div").attr("id", function() { return codename + "_npi_table"; }).attr("class", "npi_stat_table");
-      function gen_npi_stat_table(npi_value, year_id) {
-         var table_data = npi_code_filt_data.filter(function(d) { return (d.npi == npi_value) & (+d.year == year_id); });
-         d3.select("#" + scatter_div_id).select("#" + codename + "_npi_table")
-            .style("width", 275).style("left", function() { return column_4_x + 240; })
-            .classed("table_click", 1)
-            .style("top", function() {
-               if (codename == "opiate") { return 50; }
-               else if (codename == "chromatography") { return 265; }
-               else if (codename == "mass_spectrometry") { return 480; }
-               })
-            .style("height", "120px");
-
-         d3.select("#" + codename + "_npi_table").selectAll("table#" + codename + "_npi_stats")
-            .data(table_data).enter()
-            .append("table").attr("id", function() { return codename + "_npi_stats"; })
-            .attr("width", "100%")
-            .append("thead").append("td").attr("colspan", 2)
-            .html(function(d) { return d.name + " (" + d.year + ") <br> <span> " + d.classification + " </span>"; });
-
-         d3.select("#" + codename + "_npi_table").select("table#" + codename + "_npi_stats")
-            .append("tr").attr("id", "row_1").append("td").classed("metric_name", 1)
-            .html("Total Overpayment: ");
-         d3.select("#" + codename + "_npi_table").select("table#" + codename + "_npi_stats").select("tr#row_1")
-            .append("td").classed("metric_value", 1)
-            .html(function(d) { return "$" + price_formatter_full(d.npi_excess_pmt); });
-
-         d3.select("#" + codename + "_npi_table").select("table#" + codename + "_npi_stats")
-            .append("tr").attr("id", "row_2").append("td").classed("metric_name", 1)
-            .html("% of Code Overpayment: ");
-         d3.select("#" + codename + "_npi_table").select("table#" + codename + "_npi_stats").select("tr#row_2")
-            .append("td").classed("metric_value", 1)
-            .html(function(d) { return d.npi_p_excess_pmt.toPrecision(2) + "%"; });
-
-         d3.select("#" + codename + "_npi_table").select("table#" + codename + "_npi_stats")
-            .append("tr").attr("id", "row_3").append("td").classed("metric_name", 1)
-            .html("% of Excess Benes: ");
-         d3.select("#" + codename + "_npi_table").select("table#" + codename + "_npi_stats").select("tr#row_3")
-            .append("td").classed("metric_value", 1)
-            .html(function(d) { return d.npi_p_excess_benes.toPrecision(2) + "%"; });
-      }
-      function remove_npi_stat_table() {
-         d3.select("table#" + codename + "_npi_stats").remove()
-         d3.select("#" + scatter_div_id).select("#" + codename + "_npi_table")         
-            .classed("table_click", 0)
-      }
    }
    return gen_scatterplot;
 }
@@ -491,21 +453,34 @@ function npi_cumul_scatterplot(hcpcs, scatter_div_id, plot_id, codename) {
       d3.selectAll("#" + plot_id + "_tp_yr_path")
          .on("mousemove", function() {
             d3.select("#" + plot_id + "_" + d3.select(this).attr("data-year") + "_yr_path").classed("yr_path_hover", 1);
+            d3.select(this).style("cursor", "pointer")
             var mouse_container = d3.select("#" + plot_id + "_scatter_pane");
             d3.select("#" + plot_id + "yr_label").text(d3.select(this).attr("data-year"))
                .attr("fill", "#333").attr("text-anchor", "middle")
                .attr("x", d3.mouse(mouse_container.node())[0]).attr("y", d3.mouse(mouse_container.node())[1] - 5);
-            })
+         })
          .on("mousedown", function() { 
             d3.select("#" + plot_id + "_" + d3.select(this).attr("data-year") + "_yr_path").classed("yr_path_hover", 1);
             d3.select("#" + plot_id + "_" + d3.select(this).attr("data-year") + "_yr_path").classed("yr_path_click", 1);
-            })
-         .on("mouseup", function() { d3.select("#" + plot_id + "_" + d3.select(this).attr("data-year") + "_yr_path").classed("yr_path_click", 0); })
+         })
+         .on("mouseup", function() { 
+            d3.select("#" + plot_id + "_" + d3.select(this).attr("data-year") + "_yr_path").classed("yr_path_click", 0); 
+            var yr = d3.select(this).attr("data-year");
+            d3.selectAll("circle#scatter_pts").filter(function(d) { return (+d.year != +yr); })
+               .classed("scatter_unchecked", 1);
+            d3.selectAll("circle#scatter_pts").filter(function(d) { return (+d.year == +yr); })
+               .classed("scatter_unchecked", 0);      
+
+            g_scatter.selectAll("text").filter(function() { return d3.select(this).attr("data-series") != +yr; }).classed("unchecked", 1)
+               .attr("text-decoration", "line-through");
+            g_scatter.selectAll("text").filter(function() { return d3.select(this).attr("data-series") == +yr; }).classed("unchecked", 0)
+               .attr("text-decoration", "none");
+         })
          .on("mouseout", function() {
             d3.select("#" + plot_id + "_" + d3.select(this).attr("data-year") + "_yr_path").classed("yr_path_hover", 0);
             d3.select("#" + plot_id + "_" + d3.select(this).attr("data-year") + "_yr_path").classed("yr_path_click", 0);
             d3.select("#" + plot_id + "yr_label").text("");
-            });
+         });
 
       function line_interp(plot_id, year_id) {
          var year_top_x_data = npi_code_filt_data.filter(function(d) { return (d.year == year_id); });
@@ -554,7 +529,7 @@ function stackedbar(hcpcs, stacked_div_id, plot_id, codename) {
    var y_domain = [100, 0];
    var x_scale = d3.scale.linear().domain(x_domain).range([0, width - x_padding]);
    var y_scale = d3.scale.linear().domain(y_domain).range([0, height - y_padding]);
-   
+
    function gen_stackedbar() {
       var select_code_data = hcpcs_yearly_data.filter( function(d) { return d.hcpcs == hcpcs; })
       var x_axis = d3.svg.axis().scale(x_scale)
@@ -616,6 +591,16 @@ function stackedbar(hcpcs, stacked_div_id, plot_id, codename) {
       svg.select("#" + plot_id + "_stacked_pane").select(".y.axis")
          .attr("transform", function() { return "translate(" + (x_plot_displace + x_padding) + "," + (y_padding) + ")"})
          .call(y_axis);
+      
+      d3.select("g#" + plot_id + "_stacked_pane").selectAll("rect#yearly_non")
+         .data(select_code_data)
+         .enter().append("rect")
+         .attr("id", "yearly_non")
+         .attr("x", function(d) { return x_scale(d.year) + x_plot_displace + x_padding - 8 + x_buffer; })
+         .attr("y", function(d) { return y_scale(100) + y_padding ; })
+         .attr("height", function(d) { return (y_scale(d.yr_p_excess_pmt)); })
+         .attr("fill", "#e6ce9d")
+         .attr("width", 16);
 
       d3.select("g#" + plot_id + "_stacked_pane").selectAll("rect#yearly_mue")
          .data(select_code_data)
@@ -626,16 +611,28 @@ function stackedbar(hcpcs, stacked_div_id, plot_id, codename) {
          .attr("height", function(d) { return height - (y_scale(d.yr_p_excess_pmt) + y_padding); })
          .attr("fill", "#7c152a")
          .attr("width", 16);
-
-      d3.select("g#" + plot_id + "_stacked_pane").selectAll("rect#yearly_non")
-         .data(select_code_data)
-         .enter().append("rect")
-         .attr("id", "yearly_non")
-         .attr("x", function(d) { return x_scale(d.year) + x_plot_displace + x_padding - 8 + x_buffer; })
-         .attr("y", function(d) { return y_scale(100) + y_padding ; })
-         .attr("height", function(d) { return (y_scale(d.yr_p_excess_pmt)); })
-         .attr("fill", "#e6ce9d")
-         .attr("width", 16);
+      
+      d3.select("g#" + plot_id + "_stacked_pane").selectAll("rect#yearly_mue")
+         .on("mouseover", function(d) {
+            d3.select(this).attr("stroke","white")
+            var ttip_year = d.year;
+            var ttip_yr_p_excess_pmt = d.yr_p_excess_pmt;
+            gen_stacked_bar_ttip(ttip_year, ttip_yr_p_excess_pmt);
+         })
+         .on("mouseout", function(d) {
+            d3.select(this).attr("stroke","none")
+            remove_stacked_bar_ttip()
+         });
+           
+      d3.select("#" + plot_id + "_stacked_pane").append("g").attr("id", "stacked_bar_ttip");
+      function gen_stacked_bar_ttip(ttip_year, ttip_yr_p_excess_pmt) {
+         d3.select("#" + plot_id + "_stacked_pane").select("g#stacked_bar_ttip").append("text")
+            .attr("x", function() { return x_scale(ttip_year) + x_plot_displace + x_padding - 9 + x_buffer; })
+            .attr("y", function() { return y_scale(ttip_yr_p_excess_pmt) - 2 + y_padding ; })
+            .style("font-size", 9).style("shape-rendering", "crispEdges")
+            .text(function() { return "" + ttip_yr_p_excess_pmt.toPrecision(2) + "%"; });
+      }
+      function remove_stacked_bar_ttip() { d3.select("#" + plot_id + "_stacked_pane").select("g#stacked_bar_ttip").select("text").remove(); }
    }
    return gen_stackedbar;
 }
@@ -646,30 +643,180 @@ function gen_npi_detail_table(selected_name) {
    $( "#npi_detail_table" ).show("blind", 250);
    $( "#npi_detail_table_bg" ).show("blind", 250);
    
-   d3.select("div#npi_detail_table").append("div").attr("id", "detail_heading").style("border-bottom", "1 solid #406584")
-   d3.select("div#npi_detail_table").append("div").attr("id", "detail_body")   
+   d3.select("div#npi_detail_table").append("div").attr("id", "detail_heading").style("border-bottom", "1 solid #406584").style("margin", 0).style("padding",0);
+   d3.select("div#npi_detail_table").append("div").attr("id", "detail_body").style("margin", 0).style("padding",0);
    var npi_detail_data = hcpcs_top_npi_data.filter(function(d) { return d.name == selected_name; });
    
    var ul_heading = d3.select("div#detail_heading").append("ul")
    ul_heading.append("li").classed("specialty", 1).text(npi_detail_data[0].classification)
-   var table_body = d3.select("div#detail_body").append("table").attr("id", "detail_body_table").attr("width", 300).style("padding-left", 3);
+   var table_body = d3.select("div#detail_body").append("table").attr("id", "detail_body_table").attr("width", 315).style("padding-left", 3);
    var table_thead = table_body.append("thead")
    table_thead.append("td").attr("width", "44%").html("")
-   table_thead.append("td").attr("width", "14%").html("'10")
-   table_thead.append("td").attr("width", "14%").html("'11")
-   table_thead.append("td").attr("width", "14%").html("'12")
-   table_thead.append("td").attr("width", "14%").html("'13")
+   table_thead.selectAll("td#metrics_2010").data([{"year":2010}]).enter().append("td").attr("id", "metrics_2010").attr("width", "14%").html("'10").style("border-bottom", "1 solid #406584").classed("year_labels", 1);
+   table_thead.selectAll("td#metrics_2011").data([{"year":2011}]).enter().append("td").attr("id", "metrics_2011").attr("width", "14%").html("'11").style("border-bottom", "1 solid #406584").classed("year_labels", 1);
+   table_thead.selectAll("td#metrics_2012").data([{"year":2012}]).enter().append("td").attr("id", "metrics_2012").attr("width", "14%").html("'12").style("border-bottom", "1 solid #406584").classed("year_labels", 1);
+   table_thead.selectAll("td#metrics_2013").data([{"year":2013}]).enter().append("td").attr("id", "metrics_2013").attr("width", "14%").html("'13").style("border-bottom", "1 solid #406584").classed("year_labels", 1);
 
-   hcpcs_cd_list.forEach(function(code) {
-      var working_hcp_npi_detail_data = npi_detail_data.filter(function(d) { return d.hcpcs == code; });
-   })
+   var metrics_row_array = [1,2,3,4,5];
+   var table_section_opiate = table_body.selectAll("tr#opiate_section").data(metrics_row_array).enter().append("tr").attr("id", "opiate_section").attr("class", function(d) { return "opiate_row_" + d;}).attr("height", 10)
+      .style("color", "#333").style("font-size", 11);
+   var hcp_npi_detail_data = npi_detail_data.filter(function(d) { return d.hcpcs == "83925"; });
+
+   table_section_opiate.append("td").attr("id","metric_label");
+   var opiate_metrics_columns = [{"year":2010}, {"year":2011}, {"year":2012}, {"year":2013}];
+   table_section_opiate.selectAll("td#td_metrics_by_year").data(opiate_metrics_columns)
+      .enter().append("td").attr("id", "td_metrics_by_year")
+
+   d3.select("tr.opiate_row_1").select("td#metric_label").html("$$ in Overpayment")
+   d3.select("tr.opiate_row_1").selectAll("td#td_metrics_by_year")
+      .data(hcp_npi_detail_data, function(d) { return +d.year; })
+      .style("text-align", "center")
+      .html(function(d) { return "$" + price_formatter(+d.npi_excess_pmt.toPrecision(3));});
+
+   d3.select("tr.opiate_row_2").select("td#metric_label").html("% of Overpayment")
+   d3.select("tr.opiate_row_2").selectAll("td#td_metrics_by_year")
+      .data(hcp_npi_detail_data, function(d) { return +d.year; })
+      .style("text-align", "center")
+      .html(function(d) { return d.npi_p_excess_pmt.toPrecision(2) + "%";});
+
+   d3.select("tr.opiate_row_3").select("td#metric_label").html("# Benes w Overpayment")
+   d3.select("tr.opiate_row_3").selectAll("td#td_metrics_by_year")
+      .data(hcp_npi_detail_data, function(d) { return +d.year; })
+      .style("text-align", "center")
+      .html(function(d) { return comma_formatter(d.npi_excess_benes);});
+
+   d3.select("tr.opiate_row_4").select("td#metric_label").html("% Benes w Overpayment")
+   d3.select("tr.opiate_row_4").selectAll("td#td_metrics_by_year")
+      .data(hcp_npi_detail_data, function(d) { return +d.year; })
+      .style("text-align", "center")
+      .html(function(d) { return d.npi_p_excess_benes.toPrecision(2) + "%";});
+
+   d3.select("tr.opiate_row_5").select("td#metric_label").html("Top 10 Rank-Overpayment")
+   d3.select("tr.opiate_row_5").selectAll("td#td_metrics_by_year")
+      .data(hcp_npi_detail_data, function(d) { return +d.year; })
+      .style("text-align", "center")
+      .html(function(d) { return d.top_x;});
+
+
+   table_body.append("tr").attr("height", 65);
+
+   var table_sub1_thead = table_body.append("tr")
+   table_sub1_thead.append("td").attr("width", "44%").html("")
+   table_sub1_thead.selectAll("td#metrics_2010").data([{"year":2010}]).enter().append("td").attr("id", "metrics_2010").attr("width", "14%").html("'10").style("border-bottom", "1 solid #406584").classed("year_labels", 1);
+   table_sub1_thead.selectAll("td#metrics_2011").data([{"year":2011}]).enter().append("td").attr("id", "metrics_2011").attr("width", "14%").html("'11").style("border-bottom", "1 solid #406584").classed("year_labels", 1);
+   table_sub1_thead.selectAll("td#metrics_2012").data([{"year":2012}]).enter().append("td").attr("id", "metrics_2012").attr("width", "14%").html("'12").style("border-bottom", "1 solid #406584").classed("year_labels", 1);
+   table_sub1_thead.selectAll("td#metrics_2013").data([{"year":2013}]).enter().append("td").attr("id", "metrics_2013").attr("width", "14%").html("'13").style("border-bottom", "1 solid #406584").classed("year_labels", 1);
+
+   var metrics_row_array = [1,2,3,4,5];
+   var table_section_chrome = table_body.selectAll("tr#chrome_section").data(metrics_row_array).enter().append("tr").attr("id", "chrome_section").attr("class", function(d) { return "chrome_row_" + d;}).attr("height", 10)
+      .style("color", "#333").style("font-size", 11);
+   var hcp_npi_detail_data = npi_detail_data.filter(function(d) { return d.hcpcs == "82542"; });
+
+   table_section_chrome.append("td").attr("id","metric_label");
+   var chrome_metrics_columns = [{"year":2010}, {"year":2011}, {"year":2012}, {"year":2013}];
+   table_section_chrome.selectAll("td#td_metrics_by_year").data(chrome_metrics_columns)
+      .enter().append("td").attr("id", "td_metrics_by_year")
+
+   d3.select("tr.chrome_row_1").select("td#metric_label").html("$$ in Overpayment")
+   d3.select("tr.chrome_row_1").selectAll("td#td_metrics_by_year")
+      .data(hcp_npi_detail_data, function(d) { return +d.year; })
+      .style("text-align", "center")
+      .html(function(d) { return "$" + price_formatter(+d.npi_excess_pmt.toPrecision(3));});
+
+   d3.select("tr.chrome_row_2").select("td#metric_label").html("% of Overpayment")
+   d3.select("tr.chrome_row_2").selectAll("td#td_metrics_by_year")
+      .data(hcp_npi_detail_data, function(d) { return +d.year; })
+      .style("text-align", "center")
+      .html(function(d) { return d.npi_p_excess_pmt.toPrecision(2) + "%";});
+
+   d3.select("tr.chrome_row_3").select("td#metric_label").html("# Benes w Overpayment")
+   d3.select("tr.chrome_row_3").selectAll("td#td_metrics_by_year")
+      .data(hcp_npi_detail_data, function(d) { return +d.year; })
+      .style("text-align", "center")
+      .html(function(d) { return comma_formatter(d.npi_excess_benes);});
+
+   d3.select("tr.chrome_row_4").select("td#metric_label").html("% Benes w Overpayment")
+   d3.select("tr.chrome_row_4").selectAll("td#td_metrics_by_year")
+      .data(hcp_npi_detail_data, function(d) { return +d.year; })
+      .style("text-align", "center")
+      .html(function(d) { return d.npi_p_excess_benes.toPrecision(2) + "%";});
+
+   d3.select("tr.chrome_row_5").select("td#metric_label").html("Top 10 Rank-Overpayment")
+   d3.select("tr.chrome_row_5").selectAll("td#td_metrics_by_year")
+      .data(hcp_npi_detail_data, function(d) { return +d.year; })
+      .style("text-align", "center")
+      .html(function(d) { return d.top_x;});
+
+
+   table_body.append("tr").attr("height", 88);
+
+   var table_sub2_thead = table_body.append("tr")
+   table_sub2_thead.append("td").attr("width", "44%").html("")
+   table_sub2_thead.selectAll("td#metrics_2010").data([{"year":2010}]).enter().append("td").attr("id", "metrics_2010").attr("width", "14%").html("'10").style("border-bottom", "1 solid #406584").classed("year_labels", 1);
+   table_sub2_thead.selectAll("td#metrics_2011").data([{"year":2011}]).enter().append("td").attr("id", "metrics_2011").attr("width", "14%").html("'11").style("border-bottom", "1 solid #406584").classed("year_labels", 1);
+   table_sub2_thead.selectAll("td#metrics_2012").data([{"year":2012}]).enter().append("td").attr("id", "metrics_2012").attr("width", "14%").html("'12").style("border-bottom", "1 solid #406584").classed("year_labels", 1);
+   table_sub2_thead.selectAll("td#metrics_2013").data([{"year":2013}]).enter().append("td").attr("id", "metrics_2013").attr("width", "14%").html("'13").style("border-bottom", "1 solid #406584").classed("year_labels", 1);
+
+   var metrics_row_array = [1,2,3,4,5];
+   var table_section_spec = table_body.selectAll("tr#spec_section").data(metrics_row_array).enter().append("tr").attr("id", "spec_section").attr("class", function(d) { return "spec_row_" + d;}).attr("height", 10)
+      .style("color", "#333").style("font-size", 11);
+   var hcp_npi_detail_data = npi_detail_data.filter(function(d) { return d.hcpcs == "83789"; });
+
+   table_section_spec.append("td").attr("id","metric_label");
+   var spec_metrics_columns = [{"year":2010}, {"year":2011}, {"year":2012}, {"year":2013}];
+   table_section_spec.selectAll("td#td_metrics_by_year").data(spec_metrics_columns)
+      .enter().append("td").attr("id", "td_metrics_by_year")
+
+   d3.select("tr.spec_row_1").select("td#metric_label").html("$$ in Overpayment")
+   d3.select("tr.spec_row_1").selectAll("td#td_metrics_by_year")
+      .data(hcp_npi_detail_data, function(d) { return +d.year; })
+      .style("text-align", "center")
+      .html(function(d) { return "$" + price_formatter(+d.npi_excess_pmt.toPrecision(3));});
+
+   d3.select("tr.spec_row_2").select("td#metric_label").html("% of Overpayment")
+   d3.select("tr.spec_row_2").selectAll("td#td_metrics_by_year")
+      .data(hcp_npi_detail_data, function(d) { return +d.year; })
+      .style("text-align", "center")
+      .html(function(d) { return d.npi_p_excess_pmt.toPrecision(2) + "%";});
+
+   d3.select("tr.spec_row_3").select("td#metric_label").html("# Benes w Overpayment")
+   d3.select("tr.spec_row_3").selectAll("td#td_metrics_by_year")
+      .data(hcp_npi_detail_data, function(d) { return +d.year; })
+      .style("text-align", "center")
+      .html(function(d) { return comma_formatter(d.npi_excess_benes);});
+
+   d3.select("tr.spec_row_4").select("td#metric_label").html("% Benes w Overpayment")
+   d3.select("tr.spec_row_4").selectAll("td#td_metrics_by_year")
+      .data(hcp_npi_detail_data, function(d) { return +d.year; })
+      .style("text-align", "center")
+      .html(function(d) { return d.npi_p_excess_benes.toPrecision(2) + "%";});
+
+   d3.select("tr.spec_row_5").select("td#metric_label").html("Top 10 Rank-Overpayment")
+   d3.select("tr.spec_row_5").selectAll("td#td_metrics_by_year")
+      .data(hcp_npi_detail_data, function(d) { return +d.year; })
+      .style("text-align", "center")
+      .html(function(d) { return d.top_x;});
 }
+
+
 function remove_npi_detail_table() {
    d3.select("div#detail_heading").remove()
    d3.select("div#detail_body").remove()
    $( "#npi_detail_table" ).hide();
    $( "#npi_detail_table_bg" ).hide();
    $( "input" ).val("CHOOSE A PROVIDER");
+}
+
+function highlight_selected_pts(selected_name) {
+   console.log(selected_name)
+   d3.selectAll("circle.scatter_click")
+      .attr("r", 2)
+      .attr("stroke-width", 7)
+      .classed("scatter_click", 0)
+   d3.selectAll("circle#scatter_pts").filter(function(d, i) { return (d.name == selected_name); })
+      .attr("r", 6)
+      .attr("stroke-width", 1)
+      .classed("scatter_click", 1)
 }
 
 // ComboBox Implementation
@@ -689,6 +836,9 @@ $(function() {
             .autocomplete({
                delay: 0,
                minLength: 0,
+               _resizeMenu: function() {
+                  this.menu.element.outerHeight( 500 );
+               },
                source: function(request, response) {
                   var matcher = new RegExp( $.ui.autocomplete.escapeRegex(request.term), "i");
                   response( select.children("option").map(function() {
@@ -710,6 +860,9 @@ $(function() {
                      item: ui.item.option
                   });
                   gen_npi_detail_table($("select").val())
+                  highlight_selected_pts($("select").val())
+                  d3.selectAll("g#chart_ttip_clicked").selectAll("text").remove()
+                  d3.selectAll("g#chart_ttip_clicked").selectAll("rect").remove()                  
                },
                change: function(event, ui) {
                   if ( !ui.item ) {
@@ -727,8 +880,7 @@ $(function() {
                         return false;
                      }
                   }
-                  
-               }
+               },
             })
             .addClass("li_sel_value ui-widget ui-widget-content ui-corner-left ui-state-default");
          input.data( "uiAutocomplete" )._renderItem = function( ul, item ) {
