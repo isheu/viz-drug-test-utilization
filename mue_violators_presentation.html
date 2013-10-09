@@ -16,7 +16,6 @@
       </title>
    </head>
    <body>
-   
       <script type="text/javascript">
          var column_0_x = 335;
          var column_1_x = 475;
@@ -109,9 +108,9 @@
             .text(function(d) { return d.name; });        
          $(function() { $("select").combobox(); });
          $(function() { $("input:text").focus(function() { 
-            if (this.value == "CHOOSE A PROVIDER") {
+            //if (this.value == "CHOOSE A PROVIDER") {
                this.value = ""; 
-            }
+            //}
          }) });
 
          d3.select("body").append("div").attr("id", "opiate_reel").attr("class", "code_reel")
@@ -311,6 +310,10 @@
                      .classed("gen_annotation_clicked",1)
                      .classed("gen_annotation_inactive",0)
                      .classed("gen_annotation_active",0)
+                  d3.select("div#main_annotation_div")
+                     .transition()
+                     .duration(300)                     
+                     .style("opacity", 1);
                }
                else {
                   d3.select(this)
@@ -318,6 +321,10 @@
                      .classed("gen_annotation_clicked",0)
                      .classed("gen_annotation_inactive",1)
                      .classed("gen_annotation_active",0) 
+                  d3.select("div#main_annotation_div")
+                     .transition()
+                     .duration(300)
+                     .style("opacity", 0);
                }
             })            
             .on("mouseout", function() {
@@ -327,6 +334,48 @@
                      .classed("gen_annotation_active",0)
                }
             });            
+
+         var main_ann_div = d3.select("body").append("div").attr("id", "main_annotation_div").style("opacity", 0)
+         main_ann_div.append("div").attr("id", "annotation_1_div")
+            .style("position", "absolute")
+            .style("height", 45)
+            .style("width", 140)
+            .style("padding-left", 5)
+            .style("top", 500)
+            .style("left", function() { return column_1_x + 50; })
+            //.style("background-color", "rgba(180,180,180,0.5)")         
+            //.style("color", "rgb(225,225,225)")
+            .html("Utilization of mass spectrometry increased by 9X since 2010")
+         main_ann_div.append("div").attr("id", "annotation_2_div")
+            .style("position", "absolute")
+            .style("height", 30)
+            .style("width", 110)
+            .style("padding-left", 5)            
+            .style("top", 120)
+            .style("left", function() { return column_2_x + 50; })
+            //.style("background-color", "rgba(180,180,180,0.5)")         
+            .html("% of use in excess of the MUE is increasing")
+         main_ann_div.append("div").attr("id", "annotation_3_div")
+            .style("position", "absolute")
+            .style("height", 45)
+            .style("width", 150)            
+            .style("padding-left", 5)
+            .style("padding-right", 5)
+            .style("top", 550)
+            .style("left", function() { return column_3_x + 60; })
+            //.style("background-color", "rgba(180,180,180,0.5)")         
+            .html("Use in excess of the MUE is concentrated very few providers for 83925 and 83789")
+         
+         main_ann_div.append("div").attr("id", "annotation_4_div")
+            .style("position", "absolute")
+            .style("height", 45)
+            .style("width", 150)            
+            .style("padding-left", 5)
+            .style("padding-right", 5)
+            .style("top", 500)
+            .style("left", function() { return column_4_x + 60; })
+            //.style("background-color", "rgba(180,180,180,0.5)")         
+            .html("Millenium accounts for ~100% of the use in excess of the MUE for 83789")
 
       </script>
       <svg height = "0px" width = "0px">
