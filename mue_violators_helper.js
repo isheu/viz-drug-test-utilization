@@ -1,3 +1,8 @@
+/*
+FIX UP the Excel Graphics
+drop down. select metric displayed. select a provider. Visual indicator of column being manipulated
+some sort of static tag at the side? persistent toolbar
+*/
 // Positioning *
 // Annotation *
 // Provider metrics table
@@ -52,6 +57,7 @@ function year_linechart(hcpcs, line_div_id, plot_id, codename) {
       
       svg
          .append("g")
+         .attr("class", "line_pane_class")
          .attr("id", function() { return plot_id + "_line_pane"; })
          .attr("transform", function() { return "translate(" + column_1_x + ",0)"});
 
@@ -61,67 +67,12 @@ function year_linechart(hcpcs, line_div_id, plot_id, codename) {
          .attr("x", 0).attr("y", 0)
          .attr("height", 199)
          .attr("width", 200)
-         /*         
-         .on("mouseover", function() { d3.select(this).attr("stroke", "#999") })         
-         .on("mouseout", function() { d3.select(this).attr("stroke", "transparent") });
-         .on("click", function() { 
-            if (!d3.select(this).classed("ann_clicked")) {
-               d3.select(this).classed("ann_clicked", 1)
-               d3.select("#" + codename + "_bar_stacked_pane")
-                  .transition().duration(500)
-                  .attr("transform", function() { return "translate(550,0)"})
-               d3.select("#" + codename + "_npi_scatter_pane")
-                  .transition().duration(500)
-                  .attr("transform", function() { return "translate(735,0)"})
-               
-               d3.select("#" + line_div_id).append("div").attr("id", "annotation_" + codename);
-               var annotation_content = hcp_select.filter(function(d) { return d.hcpcs == hcpcs; })[0].annotation_line
-               var annotation = annotate_chart(codename, "annotation_" + codename, annotation_content)
-               annotation();
-            }
-            else { 
-               d3.select(this).classed("ann_clicked", 0)
-               remove_annotation("annotation_" + codename); 
-               d3.select("#" + codename + "_bar_stacked_pane")
-                  .transition().duration(500)
-                  .attr("transform", function() { return "translate(415,0)"})
-               d3.select("#" + codename + "_npi_scatter_pane")
-                  .transition().duration(500)
-                  .attr("transform", function() { return "translate(600,0)"}) 
-            }
-         }); */
 
       d3.selectAll("#" + plot_id + "_line_pane")
          .append("text").text("Year")
          .style("shape-rendering", "crispEdges")
          .attr("fill", "#666")
          .attr("x", 100).attr("y", function() { return height + 33; });
-      /*
-      function annotate_chart(codename, ann_div_id, content) {
-         function gen_annotation() {
-            d3.select("div#" + ann_div_id)
-               .style("width", 0).style("height", 0)
-               .attr("class", "annotation")
-               .style("top", function() {
-                  if (codename == "opiate") { return 51; }
-                  else if (codename == "chromatography") { return 266; }
-                  else if (codename == "mass_spectrometry") { return 481; }
-                  })
-               .style("left", 385)
-               .transition().duration(350)
-               .style("height", 188);
-            d3.select("div#" + ann_div_id)
-               .transition().duration(250).delay(350)
-               .style("width", 150);
-            setTimeout(function() {
-               d3.select("div#" + ann_div_id)
-                  .html(content);
-               }, 600)
-         }
-         return gen_annotation;
-      }
-      function remove_annotation(ann_div_id) { d3.select("div#" + ann_div_id).remove(); }
-      */
 
       d3.select("#" + plot_id + "_line_pane")
          .append("g").attr("class", "x axis")
@@ -228,6 +179,7 @@ function npi_pdf_scatterplot(hcpcs, scatter_div_id, plot_id, codename) {
       
       svg
          .append("g")
+         .attr("class", "pdf_scatter_pane_class")
          .attr("id", function() { return plot_id + "_scatter_pane"; })
          .attr("transform", function() { return "translate(" + column_4_x + ",0)"});
 
@@ -406,6 +358,7 @@ function npi_cumul_scatterplot(hcpcs, scatter_div_id, plot_id, codename) {
       
       svg
          .append("g")
+         .attr("class", "cdf_scatter_pane_class")
          .attr("id", function() { return plot_id + "_scatter_pane"; })
          .attr("transform", function() { return "translate(" + column_3_x + ",0)"});
 
@@ -554,6 +507,7 @@ function stackedbar(hcpcs, stacked_div_id, plot_id, codename) {
 
       svg
          .append("g")
+         .attr("class", "stacked_pane_class")
          .attr("id", function() { return plot_id + "_stacked_pane"; })
          .attr("transform", function() { return "translate(" + column_2_x + ",0)"});
 

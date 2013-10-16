@@ -90,7 +90,6 @@ div.npi_detail_div_bg {
    width: 315;
    height: 602;
    top: 63;
-   left: 1420; 
 }
 
 div.npi_detail_div {
@@ -99,7 +98,6 @@ div.npi_detail_div {
    width: 315;
    height: 602;
    top: 63;
-   left: 1420;    
 }
 
 body {
@@ -153,6 +151,7 @@ div.legend_bubble {
 }
 
 .scatter_hover {
+   cursor: pointer;
    fill: #7c152a;   
 }
 .scatter_click {
