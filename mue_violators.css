@@ -1,3 +1,67 @@
+#title_reel {
+   height: 25;
+   background-image: url(patterns/bg-striped.png); 
+   margin-top: 0;
+   margin-bottom: 0;
+}
+
+.headline {
+   background-color: #eee;
+   height: 31;
+   padding-top: 5;
+   margin-top: 0;
+   margin-bottom: 0;
+   border-bottom: 1 solid rgb(255,153,0);
+   text-align: center;
+   font-size: 14;
+   font-family: Calibri, Arial, Lucida Sans, Lucida Grande;
+}
+
+.code_reel {
+   margin-top: 0;
+   margin-bottom: 0;
+   border-top: 1 solid #999;
+   height: 200;
+}
+
+.chart-title {
+   shape-rendering: crispEdges;
+   font-size: 14;
+   font-family: Calibri, Arial, Lucida Sans, Lucida Grande; 
+   font-weight: normal;
+   fill: #444; 
+}
+
+.code_reel_svg {
+   shape-rendering: crispEdges; 
+   width: 1400;
+   height: 200;
+}
+
+#legend_reel {
+   height: 50;
+   background-color: #CBD8E3; 
+   margin-top: 15; 
+   margin-bottom: 15;
+}
+
+#show_annotation {
+   position: absolute; 
+   margin: 0;
+   padding: 0;
+   top: 42;
+   height: 18;
+   width: 102;
+   margin-left: 3;            
+}
+
+div.text-annotation {
+   position: absolute; 
+   padding-right: 5;
+   padding-left: 5; 
+   background-image: -webkit-linear-gradient(left, rgba(255,255,255,0.75) 0%, rgba(255,255,255,0) 100%);
+}
+
 a.gen_annotation_clicked {
    text-decoration: none;   
    font-weight: bold;   

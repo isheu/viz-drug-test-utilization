@@ -3,9 +3,6 @@ FIX UP the Excel Graphics
 drop down. select metric displayed. select a provider. Visual indicator of column being manipulated
 some sort of static tag at the side? persistent toolbar
 */
-// Positioning *
-// Annotation *
-// Provider metrics table
 
 function reel_label(hcpcs_div, code) {
    function gen_reel_label() {
@@ -50,10 +47,7 @@ function year_linechart(hcpcs, line_div_id, plot_id, codename) {
          .ticks(6).tickSubdivide(4).tickSize(6,3,0)
          .tickFormat(function(d) { return "$" + price_formatter(d); } );
 
-      var svg = d3.select("svg#" + line_div_id + "_svg")
-         .attr("shape-rendering", "crispEdges")
-         .attr("width", 250)
-         .attr("height", 200);
+      var svg = d3.select("svg#" + line_div_id + "_svg"); 
       
       svg
          .append("g")
