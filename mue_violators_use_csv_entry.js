@@ -1,5 +1,24 @@
 
          /*
+         auc_shader(5);
+         function auc_shader(top_x_value) {
+            var top_x_data = npi_code_filt_data.filter(function(d) { return (d.top_x <= top_x_value); });
+            var scatter_line = d3.svg.area()
+               .x(function(d) { return x_scale(d.top_x) + x_plot_displace + x_padding; })
+               .y0(function(d) { return y_scale(0) + y_padding; })
+               .y1(function(d) { return y_scale(d.npi_p_excess_pmt) + y_padding; })
+               .interpolate("basis");
+
+            d3.select("g#opiate_scatter_pane")
+               .append("path")
+               .attr("d", function() { return scatter_line(top_x_data); })
+               .attr("id", "interpolate")
+               .attr("fill", "#cc181e")
+               .attr("opacity", 0.75)
+               .attr("stroke", "#333");
+         }
+         */
+         /*
          var hcpcs_yearly_data = [];
          d3.csv("data/year_quant_test_mue.csv", function(dataset) {
             dataset.forEach(function(d) {

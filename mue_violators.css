@@ -25,7 +25,6 @@
 }
 
 .chart-title {
-   shape-rendering: crispEdges;
    font-size: 14;
    font-family: Calibri, Arial, Lucida Sans, Lucida Grande; 
    font-weight: normal;
@@ -258,6 +257,10 @@ div.annotation {
    font-size: 10.5px;
 }
 
+.x-axis-label {
+   fill: #666;
+}
+
 td.metric_value {
    font-family: arial, sans-serif;
    font-size: 12px;
@@ -299,4 +302,8 @@ tr {
 div.metric_table {
    font-family: arial, sans-serif;
    font-size: 11px;
+}
+
+text {
+   shape-rendering: crispEdges;
 }

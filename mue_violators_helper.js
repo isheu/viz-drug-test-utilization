@@ -2,6 +2,9 @@
 FIX UP the Excel Graphics
 drop down. select metric displayed. select a provider. Visual indicator of column being manipulated
 some sort of static tag at the side? persistent toolbar
+
+ALIASES: for the selected codes... so easily selectable 1-2-3-4
+Some sort of generator function for annotations -- it has internal counter tracking the # of annotations out, and so can select. But with resizing... not really feasible to be very automated
 */
 
 function reel_label(hcpcs_div, code) {
@@ -33,7 +36,6 @@ function year_linechart(hcpcs, line_div_id, plot_id, codename) {
    var y_domain = [150000000, 0];
    var x_scale = d3.scale.linear().domain(x_domain).range([0, width - x_padding]);
    var y_scale = d3.scale.linear().domain(y_domain).range([0, height - y_padding]);
-   var yr_formatter = d3.format("g");
 
    function gen_linechart() {
       var code_yr_filt_data = hcpcs_yearly_data.filter(function(d) { return d.hcpcs == hcpcs; });
@@ -63,14 +65,12 @@ function year_linechart(hcpcs, line_div_id, plot_id, codename) {
          .attr("width", 200)
 
       d3.selectAll("#" + plot_id + "_line_pane")
-         .append("text").text("Year")
-         .style("shape-rendering", "crispEdges")
-         .attr("fill", "#666")
+         .append("text").text("Year").attr("class", "x-axis-label")
          .attr("x", 100).attr("y", function() { return height + 33; });
 
       d3.select("#" + plot_id + "_line_pane")
          .append("g").attr("class", "x axis")
-         .append("line").attr("id", "axis")
+         .append("line")
          .attr("x1", function() { return 0; })
          .attr("y1", 0)
          .attr("x2", function() { return width - x_padding; })
@@ -80,7 +80,7 @@ function year_linechart(hcpcs, line_div_id, plot_id, codename) {
          .call(x_axis);
       d3.select("#" + plot_id + "_line_pane")
          .append("g").attr("class", "y axis")
-         .append("line").attr("id", "axis")
+         .append("line")
          .attr("x1", 0)
          .attr("y1", 0)
          .attr("x2", 0)
@@ -128,7 +128,6 @@ function year_linechart(hcpcs, line_div_id, plot_id, codename) {
          var charttip_data = code_yr_filt_data.filter(function(d) { return (d.year == year); });
          d3.select("#" + plot_id + "_line_pane").select("g#chart_ttip").selectAll("text")
             .data(charttip_data).enter().append("text")
-            .style("shape-rendering", "crispEdges")
             .text(function(d) { return "$" + price_formatter_full(+d.yr_pmt.toPrecision(3)); })
             .attr("text-anchor", function(d) {
                if (d.year == 2010) { return "start";}
@@ -187,7 +186,7 @@ function npi_pdf_scatterplot(hcpcs, scatter_div_id, plot_id, codename) {
 
       d3.select("#" + plot_id + "_scatter_pane")
          .append("g").attr("class", "x axis")
-         .append("line").attr("id", "axis")
+         .append("line")
          .attr("x1", function() { return 0; })
          .attr("y1", 0)
          .attr("x2", function() { return width - x_padding; })
@@ -197,7 +196,7 @@ function npi_pdf_scatterplot(hcpcs, scatter_div_id, plot_id, codename) {
          .call(x_axis);
       d3.select("#" + plot_id + "_scatter_pane")
          .append("g").attr("class", "y axis")
-         .append("line").attr("id", "axis")
+         .append("line")
          .attr("x1", 0)
          .attr("y1", 0)
          .attr("x2", 0)
@@ -207,9 +206,7 @@ function npi_pdf_scatterplot(hcpcs, scatter_div_id, plot_id, codename) {
          .call(y_axis);
 
       d3.selectAll("#" + plot_id + "_scatter_pane")
-         .append("text").text("Provider Ranking in Overpayment")
-         .style("shape-rendering", "crispEdges")
-         .attr("fill", "#666")
+         .append("text").text("Provider Ranking in Overpayment").attr("class", "x-axis-label")
          .attr("x", 45).attr("y", function() { return height + 33; });
 
       d3.select("g#" + plot_id + "_scatter_pane").selectAll("circle")
@@ -228,25 +225,7 @@ function npi_pdf_scatterplot(hcpcs, scatter_div_id, plot_id, codename) {
          .attr("cx", function(d) { return x_scale(d.top_x) + x_plot_displace + x_padding; })
          .attr("cy", function(d) { return y_scale(d.npi_p_excess_pmt) + y_padding ; })
          .attr("r", 2);
-      /*
-      auc_shader(5);
-      function auc_shader(top_x_value) {
-         var top_x_data = npi_code_filt_data.filter(function(d) { return (d.top_x <= top_x_value); });
-         var scatter_line = d3.svg.area()
-            .x(function(d) { return x_scale(d.top_x) + x_plot_displace + x_padding; })
-            .y0(function(d) { return y_scale(0) + y_padding; })
-            .y1(function(d) { return y_scale(d.npi_p_excess_pmt) + y_padding; })
-            .interpolate("basis");
 
-         d3.select("g#opiate_scatter_pane")
-            .append("path")
-            .attr("d", function() { return scatter_line(top_x_data); })
-            .attr("id", "interpolate")
-            .attr("fill", "#cc181e")
-            .attr("opacity", 0.75)
-            .attr("stroke", "#333");
-      }
-      */
       // More generally, a generate annotation function
       d3.select("g#" + plot_id + "_scatter_pane").selectAll("circle")
          .on("mouseover", function() { 
@@ -261,12 +240,6 @@ function npi_pdf_scatterplot(hcpcs, scatter_div_id, plot_id, codename) {
             })
          .on("click", function() {
             if (!d3.select(this).classed("scatter_click")) {
-               /*
-               d3.select("g#" + plot_id + "_scatter_pane").selectAll("circle.scatter_click")
-                  .attr("r", 2)
-                  .attr("stroke-width", 7)
-                  .classed("scatter_click", 0)
-                  */
                d3.selectAll("circle.scatter_click")
                   .attr("r", 2)
                   .attr("stroke-width", 7)
@@ -304,7 +277,6 @@ function npi_pdf_scatterplot(hcpcs, scatter_div_id, plot_id, codename) {
             .attr("y", function() { return (+npi_y) - 17; });
          d3.select("#" + plot_id + "_scatter_pane").select("g#" + ttip_id).selectAll("text")
             .data(charttip_data).enter().append("text")
-            .style("shape-rendering", "crispEdges")
             .text(function(d) { return d.name; })
             .attr("text-anchor", "start")
             .attr("x", function() { return 0 + (+npi_x); })
@@ -312,10 +284,6 @@ function npi_pdf_scatterplot(hcpcs, scatter_div_id, plot_id, codename) {
             .attr("fill", "#333");
       }
       function remove_chart_tip(ttip_id) { 
-         /*
-         d3.select("#" + plot_id + "_scatter_pane").select("g#" + ttip_id).selectAll("text").remove()
-         d3.select("#" + plot_id + "_scatter_pane").select("g#" + ttip_id).selectAll("rect").remove();
-         */
          d3.selectAll("g#" + ttip_id).selectAll("text").remove()
          d3.selectAll("g#" + ttip_id).selectAll("rect").remove();
          };
@@ -366,7 +334,7 @@ function npi_cumul_scatterplot(hcpcs, scatter_div_id, plot_id, codename) {
 
       d3.select("#" + plot_id + "_scatter_pane")
          .append("g").attr("class", "x axis")
-         .append("line").attr("id", "axis")
+         .append("line")
          .attr("x1", function() { return 0; })
          .attr("y1", 0)
          .attr("x2", function() { return width - x_padding; })
@@ -376,7 +344,7 @@ function npi_cumul_scatterplot(hcpcs, scatter_div_id, plot_id, codename) {
          .call(x_axis);
       d3.select("#" + plot_id + "_scatter_pane")
          .append("g").attr("class", "y axis")
-         .append("line").attr("id", "axis")
+         .append("line")
          .attr("x1", 0)
          .attr("y1", 0)
          .attr("x2", 0)
@@ -386,9 +354,7 @@ function npi_cumul_scatterplot(hcpcs, scatter_div_id, plot_id, codename) {
          .call(y_axis);
 
       d3.selectAll("#" + plot_id + "_scatter_pane")
-         .append("text").text("Top X Providers")
-         .style("shape-rendering", "crispEdges")
-         .attr("fill", "#666")
+         .append("text").text("Top X Providers").attr("class", "x-axis-label")
          .attr("x", 85).attr("y", function() { return height + 33; });
           
       line_interp(plot_id, 2010);
@@ -459,7 +425,6 @@ function npi_cumul_scatterplot(hcpcs, scatter_div_id, plot_id, codename) {
             .attr("stroke-width", 8)
             .attr("data-year", year_id)
             .attr("stroke", "transparent");
-
       }
    }
    return gen_scatterplot;
@@ -514,14 +479,12 @@ function stackedbar(hcpcs, stacked_div_id, plot_id, codename) {
          .attr("height", 200);
 
       d3.selectAll("#" + plot_id + "_stacked_pane")
-         .append("text").text("Year")
-         .style("shape-rendering", "crispEdges")
-         .attr("fill", "#666")
+         .append("text").text("Year").attr("class", "x-axis-label")
          .attr("x", 75).attr("y", function() { return height + 33; });
 
       d3.select("#" + plot_id + "_stacked_pane")
          .append("g").attr("class", "x axis")
-         .append("line").attr("id", "axis")
+         .append("line")
          .attr("x1", function() { return - x_buffer; })
          .attr("y1", 0)
          .attr("x2", function() { return width - x_padding + 8; })
@@ -531,7 +494,7 @@ function stackedbar(hcpcs, stacked_div_id, plot_id, codename) {
          .call(x_axis);
       d3.select("#" + plot_id + "_stacked_pane")
          .append("g").attr("class", "y axis")
-         .append("line").attr("id", "axis")
+         .append("line")
          .attr("x1", 0)
          .attr("y1", 0)
          .attr("x2", 0)
@@ -577,7 +540,6 @@ function stackedbar(hcpcs, stacked_div_id, plot_id, codename) {
          d3.select("#" + plot_id + "_stacked_pane").select("g#stacked_bar_ttip").append("text")
             .attr("x", function() { return x_scale(ttip_year) + x_plot_displace + x_padding - 9 + x_buffer; })
             .attr("y", function() { return y_scale(ttip_yr_p_excess_pmt) - 2 + y_padding ; })
-            .style("font-size", 9).style("shape-rendering", "crispEdges")
             .text(function() { return "" + ttip_yr_p_excess_pmt.toPrecision(2) + "%"; });
       }
       function remove_stacked_bar_ttip() { d3.select("#" + plot_id + "_stacked_pane").select("g#stacked_bar_ttip").select("text").remove(); }
@@ -587,6 +549,7 @@ function stackedbar(hcpcs, stacked_div_id, plot_id, codename) {
 
 
 function gen_npi_detail_table(selected_name) {
+   // Work to do: Flexible input, given number of selections. Kinda true for all of these functions.
    $( "input" ).val(selected_name);
    $( "#npi_detail_table" ).show("blind", 250);
    $( "#npi_detail_table_bg" ).show("blind", 250);
@@ -746,7 +709,6 @@ function gen_npi_detail_table(selected_name) {
       .html(function(d) { return d.top_x;});
 }
 
-
 function remove_npi_detail_table() {
    d3.select("div#detail_heading").remove()
    d3.select("div#detail_body").remove()
@@ -756,7 +718,6 @@ function remove_npi_detail_table() {
 }
 
 function highlight_selected_pts(selected_name) {
-   console.log(selected_name)
    d3.selectAll("circle.scatter_click")
       .attr("r", 2)
       .attr("stroke-width", 7)

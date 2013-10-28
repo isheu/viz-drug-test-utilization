@@ -50,6 +50,7 @@
          console.log(chroma_interpolator_lightness(1).hex())
          */
 
+         var yr_formatter = d3.format("g");
          var price_formatter = d3.format(">,s");
          var price_formatter_full = d3.format(",02d");
          var percent_formatter = d3.format("02d");
@@ -149,32 +150,32 @@
          var g_stacked = legend_svg.append("g").attr("id", "year_stacked_legend").attr("transform", function() { return "translate(" + column_2_x + ",0)"; })
             g_stacked.append("rect").attr("y", 3).attr("fill", "rgba(255,255,255,0.55)").attr("width", 150).attr("height", 43)
             g_stacked.append("rect").attr("x", 25).attr("y", 9).attr("fill", "#7c152a").attr("width", 20).attr("height", 15);
-            g_stacked.append("text").attr("x", 50).attr("y", 19).attr("fill", "#333").text("MUE Violations").attr("shape-rendering", "crispEdges");
+            g_stacked.append("text").attr("x", 50).attr("y", 19).attr("fill", "#333").text("MUE Violations");
             g_stacked.append("rect").attr("x", 25).attr("y", 27).attr("fill", "#e6ce9d").attr("width", 20).attr("height", 15);
-            g_stacked.append("text").attr("x", 50).attr("y", 39).attr("fill", "#333").text("Not in Excess").attr("shape-rendering", "crispEdges");
+            g_stacked.append("text").attr("x", 50).attr("y", 39).attr("fill", "#333").text("Not in Excess");
 
          var g_scatter = legend_svg.append("g").attr("id", "npi_line_legend").attr("transform", function() { return "translate(" + column_3_x + ",0)";})
             g_scatter.append("rect").attr("y", 3).attr("fill", "rgba(255,255,255,0.55)").attr("width", 225).attr("height", 43);
             g_scatter.append("rect").attr("x", 58).attr("y", 13).attr("width", 15).attr("height", 3).attr("fill", "rgb(139,0,0)").attr("r", 4).attr("data-series", "2010");
-            g_scatter.append("text").attr("x", 80).attr("y", 19).attr("fill", "#333").text("2010").attr("shape-rendering", "crispEdges").attr("data-series", "2010");
+            g_scatter.append("text").attr("x", 80).attr("y", 19).attr("fill", "#333").text("2010").attr("data-series", "2010");
             g_scatter.append("rect").attr("x", 58).attr("y", 31).attr("width", 15).attr("height", 3).attr("fill", "rgb(232,151,70)").attr("r", 4).attr("data-series", "2011");
-            g_scatter.append("text").attr("x", 80).attr("y", 39).attr("fill", "#333").text("2011").attr("shape-rendering", "crispEdges").attr("data-series", "2011");
+            g_scatter.append("text").attr("x", 80).attr("y", 39).attr("fill", "#333").text("2011").attr("data-series", "2011");
 
             g_scatter.append("rect").attr("x", 130).attr("y", 13).attr("width", 15).attr("height", 3).attr("fill", "rgb(153,197,169)").attr("r", 4).attr("data-series", "2012");
-            g_scatter.append("text").attr("x", 152).attr("y", 19).attr("fill", "#333").text("2012").attr("shape-rendering", "crispEdges").attr("data-series", "2012");
+            g_scatter.append("text").attr("x", 152).attr("y", 19).attr("fill", "#333").text("2012").attr("data-series", "2012");
             g_scatter.append("rect").attr("x", 130).attr("y", 31).attr("width", 15).attr("height", 3).attr("fill", "rgb(0,68,153)").attr("r", 4).attr("data-series", "2013");
-            g_scatter.append("text").attr("x", 152).attr("y", 39).attr("fill", "#333").text("2013").attr("shape-rendering", "crispEdges").attr("data-series", "2013");
+            g_scatter.append("text").attr("x", 152).attr("y", 39).attr("fill", "#333").text("2013").attr("data-series", "2013");
 
          var g_scatter = legend_svg.append("g").attr("id", "npi_scatter_legend").attr("transform", function() { return "translate(" + column_4_x + ",0)";})
             g_scatter.append("rect").attr("y", 3).attr("fill", "rgba(255,255,255,0.55)").attr("width", 225).attr("height", 43);
             g_scatter.append("circle").attr("cx", 48).attr("cy", 15).attr("fill", "rgb(139,0,0)").attr("r", 4).attr("data-series", "2010");
-            g_scatter.append("text").attr("x", 60).attr("y", 19).attr("fill", "#333").text("2010").attr("shape-rendering", "crispEdges").attr("data-series", "2010");
+            g_scatter.append("text").attr("x", 60).attr("y", 19).attr("fill", "#333").text("2010").attr("data-series", "2010");
             g_scatter.append("circle").attr("cx", 48).attr("cy", 33).attr("fill", "rgb(232,151,70)").attr("r", 4).attr("data-series", "2011");
-            g_scatter.append("text").attr("x", 60).attr("y", 39).attr("fill", "#333").text("2011").attr("shape-rendering", "crispEdges").attr("data-series", "2011");
+            g_scatter.append("text").attr("x", 60).attr("y", 39).attr("fill", "#333").text("2011").attr("data-series", "2011");
             g_scatter.append("circle").attr("cx", 120).attr("cy", 15).attr("fill", "rgb(153,197,169)").attr("r", 4).attr("data-series", "2012");
-            g_scatter.append("text").attr("x", 132).attr("y", 19).attr("fill", "#333").text("2012").attr("shape-rendering", "crispEdges").attr("data-series", "2012");
+            g_scatter.append("text").attr("x", 132).attr("y", 19).attr("fill", "#333").text("2012").attr("data-series", "2012");
             g_scatter.append("circle").attr("cx", 120).attr("cy", 33).attr("fill", "rgb(0,68,153)").attr("r", 4).attr("data-series", "2013");
-            g_scatter.append("text").attr("x", 132).attr("y", 39).attr("fill", "#333").text("2013").attr("shape-rendering", "crispEdges").attr("data-series", "2013");
+            g_scatter.append("text").attr("x", 132).attr("y", 39).attr("fill", "#333").text("2013").attr("data-series", "2013");
 
          g_scatter.selectAll("text")
             .on("mousemove", function() { d3.select(this).style("cursor", "hand"); })
@@ -207,7 +208,7 @@
             .attr("x", function() { return column_4_x + 175; }).attr("y", 20);
 
          d3.select("#legend_reel_svg").append("text")
-            .style("shape-rendering", "crispEdges").attr("fill", "#444")
+            .attr("fill", "#444")
             .text("<-- click year to display/hide data series from plot")
             .attr("id","legend_instructions")
             .attr("x", function() { return column_4_x + 175; }).attr("y", 20);
