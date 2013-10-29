@@ -1,3 +1,26 @@
+.hcpcs_sorter {
+   background-image: url(patterns/bg-striped.png); 
+}
+
+.draggable {
+   cursor: pointer; 
+}
+#hcpcs_accordion li.draggable:hover {
+   background-color: rgba(226, 229, 229, 0.9);
+}
+
+#hcpcs_accordion li.hcpcs_sorter span {
+   cursor: pointer; 
+   position: absolute;
+}
+#hcpcs_accordion li.hcpcs_sorter span:hover {
+   color: #cc181e;
+}
+#sorter_1 { right: 83px; }
+#sorter_2 { right: 65px; }
+#sorter_3 { right: 40px; }
+#sorter_4 { right: 4px; }
+
 #title_reel {
    height: 25;
    background-image: url(patterns/bg-striped.png); 
@@ -6,22 +29,23 @@
 }
 
 #hcpcs_accordion {
+   z-index: 5;
    position: absolute;
    width: 200;
    padding: 0;
    margin: 0;
-   top: 65;
+   top: 37;
    left: 70;
 }
 #hcpcs_accordion h3 {
-   letter-spacing: 1px;
-   padding: 4 4 4 25; 
+   letter-spacing: 0px;
+   padding: 2 4 2 25; 
    color: #333;
    font-size: 11.5;
    font-family: Calibri, Arial, Lucida Sans, Lucida Grande;
 }
 #hcpcs_accordion .hcpcs_list {
-   height: 500;
+   height: 595;
    margin: 0;
    padding: 0;
    font-family: Arial, Lucida Sans, Lucida Grande;
@@ -36,14 +60,27 @@
 }
 
 #hcpcs_accordion li {
-   line-height: 22px;
+   z-index: 5;
+   line-height: 21px;
    background-color: rgba(226, 229, 229, 0.5);
    list-style-type: none;
    margin: 0;
    width: 183;
    padding: 0 0 0 15; 
    border-bottom: 1 solid #999;
-   height: 22;
+   height: 21;
+}
+
+#hcpcs_accordion li.hcpcs_sorter {
+   font-size: 9;
+   line-height: 15px;
+   background-color: rgba(226, 229, 229, 1);
+   list-style-type: none;
+   margin: 0;
+   padding: 0 0 0 5; 
+   border-bottom: 1 solid #999;
+   width: 193;
+   height: 15;
 }
 
 .headline {
@@ -237,6 +274,7 @@ div.hcpcs_bubble {
 
 div.hcpcs-bubble-active {
    opacity: 0.5;
+   border: 1 solid #300
 }
 
 div.hcpcs-bubble-hover {

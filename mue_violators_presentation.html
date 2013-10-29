@@ -15,17 +15,24 @@
       <title>Quantitative Drug Testing MUE Violations over Time </title>
    </head>
    <body>
+      <div id = "hcpcs_accordion">
+         <h3>Quantitative Drug Tests</h3>
+         <div id = "quant_hcpcs" class = "hcpcs_list">
+         <div>
+            <ul>
+            <li class = "hcpcs_sorter">Rank by: <span id = "sorter_1">ABC</span> <span id = "sorter_2">$$</span> <span id = "sorter_3">OVP</span>  <span id = "sorter_4">% OVP</span></li>
+            </ul>
+         </div>
+         <div id = "list"><ul></ul></div>
+         </div>
+      </div>
       <script type="text/javascript">
          $(function() {
             $( "#hcpcs_accordion" ).accordion({
                collapsible: true
             });
             
-            $( "#sortable" ).sortable({
-               revert: true
-            });
             $( ".draggable" ).draggable({
-               connectToSortable: "#sortable",
                helper: "clone",
                revert: "invalid"
             });
@@ -36,9 +43,6 @@
                hoverClass: "hcpcs-bubble-hover",
                activeClass: "hcpcs-bubble-active",
                drop: function( event, ui ) {
-               $( this )
-                  .addClass( "hcpcs_bubble_hover" )
-                  //.addClass( "ui-state-highlight" )
                }
             });
          });
@@ -82,9 +86,11 @@
          var percent_formatter = d3.format("02d");
          var comma_formatter = d3.format(",");
          var hcp_select = [
-            {"hcpcs":"83925", "description":"Opiates", "annotation_line": "Annual testing for opiates tripled from 2010 to 2012"}, 
-            {"hcpcs":"82542", "description":"Column Chromatography", "annotation_line": "Annual testing using column chromatography more than doubled from 2010 to 2012"}, 
-            {"hcpcs":"83789", "description":"Mass Spectrometry", "annotation_line": "Annual testing using mass spectrometry increased by over 8X from 2010 to 2012"}];
+            {"hcpcs":"83925", "description":"Opiates"}, 
+            {"hcpcs":"82542", "description":"Column Chromatography"}, 
+            {"hcpcs":"83789", "description":"Mass Spectrometry"}];
+
+         var hcpcs_yearly_data = [];
 
          d3.select("body").append("div").attr("class", "headline")
             .html("Utilization and MUE Violations of Codes 83925, 82542, and 83780");
@@ -141,33 +147,60 @@
          d3.select("div#chromatography_reel").append("svg").attr("id", "chromatography_reel_svg").attr("class", "code_reel_svg");
          d3.select("div#mass_spectrometry_reel").append("svg").attr("id", "mass_spectrometry_reel_svg").attr("class", "code_reel_svg");
          
-         var opiate_line_plot = year_linechart("83925", "opiate_reel", "opiate_line", "opiate")
-         opiate_line_plot();
-         var chromatography_line_plot = year_linechart("82542", "chromatography_reel", "chromatography_line", "chromatography")
-         chromatography_line_plot();
-         var mass_spectrometry_line_plot = year_linechart("83789", "mass_spectrometry_reel", "mass_spectrometry_line", "mass_spectrometry")
-         mass_spectrometry_line_plot();
-         
-         var opiate_bar_plot = stackedbar("83925", "opiate_reel", "opiate_bar", "opiate"); 
-         opiate_bar_plot(); 
-         var chromatography_bar_plot = stackedbar("82542", "chromatography_reel", "chromatography_bar", "chromatography"); 
-         chromatography_bar_plot(); 
-         var mass_spectrometry_bar_plot = stackedbar("83789", "mass_spectrometry_reel", "mass_spectrometry_bar", "mass_spectrometry"); 
-         mass_spectrometry_bar_plot(); 
+         // DATA READ-IN //
+         var hcpcs_yearly_data = [];
+         d3.csv("data/year_quant_test_mue.csv", function(dataset) {
+            dataset.forEach(function(d) {
+               hcpcs_yearly_data.push(
+                  {  "year": +d.year, "hcpcs": d.hcpcs_cd, "mue": +d.mue, "yr_npis": +d.n_npi, "yr_lines": +d.lines, "yr_units": +d.total_units, "yr_excess_units": +d.excess_units, 
+                     "yr_pmt": +d.linepmt, "yr_excess_pmt": +d.overpmt, "yr_not_excess_pmt": +d.not_in_excess_pmt, "yr_p_excess_pmt": +d.pct_overpmt * 100, "yr_p_not_excess_pmt": +d.pct_not_in_excess_pmt * 100,
+                     "yr_n_excess_npis": +d.n_npi_overpmt, "yr_n_excess_npis_90": +d.n_npi_90_pct, "yr_top_5_npi_pmt": +d.top_5_npi_pmt, "yr_top_5_npi_p_pmt": +d.pct_top_5_npi_pmt * 100
+                  });
+            });
+            var opiate_line_plot = year_linechart("83925", "opiate_reel", "opiate_line", "opiate")
+            opiate_line_plot();
+            var chromatography_line_plot = year_linechart("82542", "chromatography_reel", "chromatography_line", "chromatography")
+            chromatography_line_plot();
+            var mass_spectrometry_line_plot = year_linechart("83789", "mass_spectrometry_reel", "mass_spectrometry_line", "mass_spectrometry")
+            mass_spectrometry_line_plot();
 
-         var opiate_cdf_plot = npi_cumul_scatterplot("83925", "opiate_reel", "opiate_cdf_npi", "opiate")
-         opiate_cdf_plot()
-         var chromatography_cdf_plot = npi_cumul_scatterplot("82542", "chromatography_reel", "chromatography_cdf_npi", "chromatography")
-         chromatography_cdf_plot()
-         var mass_spectrometry_cdf_plot = npi_cumul_scatterplot("83789", "mass_spectrometry_reel", "mass_spectrometry_cdf_npi", "mass_spectrometry")
-         mass_spectrometry_cdf_plot()
+            var opiate_bar_plot = stackedbar("83925", "opiate_reel", "opiate_bar", "opiate"); 
+            opiate_bar_plot(); 
+            var chromatography_bar_plot = stackedbar("82542", "chromatography_reel", "chromatography_bar", "chromatography"); 
+            chromatography_bar_plot(); 
+            var mass_spectrometry_bar_plot = stackedbar("83789", "mass_spectrometry_reel", "mass_spectrometry_bar", "mass_spectrometry"); 
+            mass_spectrometry_bar_plot(); 
+         });
 
-         var opiate_pdf_plot = npi_pdf_scatterplot("83925", "opiate_reel", "opiate_pdf_npi", "opiate")
-         opiate_pdf_plot()
-         var chromatography_pdf_plot = npi_pdf_scatterplot("82542", "chromatography_reel", "chromatography_pdf_npi", "chromatography")
-         chromatography_pdf_plot()
-         var mass_spectrometry_pdf_plot = npi_pdf_scatterplot("83789", "mass_spectrometry_reel", "mass_spectrometry_pdf_npi", "mass_spectrometry")
-         mass_spectrometry_pdf_plot()
+         var hcpcs_top_npi_data = [];
+         d3.csv("data/top_npi_quant_test_mue.csv", function(dataset) {
+            dataset.forEach(function(d) {
+               hcpcs_top_npi_data.push(
+                    {"year": +d.year, "hcpcs": d.hcpcs_cd, "top_x": +d.rank, "npi": d.npi, "name": d.name, "classification": d.classification, 
+                     "hcpcs_excess_pmt": +d.total_overpmt, "hcpcs_excess_benes": +d.total_excess_benes, 
+                     "npi_excess_pmt": +d.overpmt, "npi_p_excess_pmt": +d.pct_overpmt * 100, "npi_excess_benes": +d.excess_benes, "npi_p_excess_benes": +d.pct_excess_benes * 100, 
+                     "npi_excess_visits": +d.excess_visits, "npi_total_units": +d.total_units, "npi_excess_units": +d.excess_units, 
+                     "cumul_excess_pmt": +d.cumul_overpmt, "cumul_p_excess_pmt": +d.pct_cumul_overpmt * 100, "cumul_excess_benes": +d.cumul_unique_benes, "cumul_p_excess_benes": +d.pct_cumul_unique_benes * 100, 
+                     });
+            });
+            var opiate_cdf_plot = npi_cumul_scatterplot("83925", "opiate_reel", "opiate_cdf_npi", "opiate")
+            opiate_cdf_plot()
+            var chromatography_cdf_plot = npi_cumul_scatterplot("82542", "chromatography_reel", "chromatography_cdf_npi", "chromatography")
+            chromatography_cdf_plot()
+            var mass_spectrometry_cdf_plot = npi_cumul_scatterplot("83789", "mass_spectrometry_reel", "mass_spectrometry_cdf_npi", "mass_spectrometry")
+            mass_spectrometry_cdf_plot()
+
+            var opiate_pdf_plot = npi_pdf_scatterplot("83925", "opiate_reel", "opiate_pdf_npi", "opiate")
+            opiate_pdf_plot()
+            var chromatography_pdf_plot = npi_pdf_scatterplot("82542", "chromatography_reel", "chromatography_pdf_npi", "chromatography")
+            chromatography_pdf_plot()
+            var mass_spectrometry_pdf_plot = npi_pdf_scatterplot("83789", "mass_spectrometry_reel", "mass_spectrometry_pdf_npi", "mass_spectrometry")
+            mass_spectrometry_pdf_plot()
+
+            d3.selectAll("circle#scatter_pts").filter(function(d) { return (+d.year != 2013); })
+               .classed("scatter_unchecked", 1);
+
+         });
 
          d3.select("body").append("div").attr("id", "legend_reel")
          d3.select("#legend_reel").append("div").attr("id", "label_legend").attr("class", "legend_bubble").html("LEGEND").style("left", function() { return column_0_x; });
@@ -221,8 +254,6 @@
                }               
             });
 
-         d3.selectAll("circle#scatter_pts").filter(function(d) { return (+d.year != 2013); })
-            .classed("scatter_unchecked", 1);
          g_scatter.selectAll("text").filter(function() { return (d3.select(this).attr("data-series") != 2013); })
             .classed("unchecked", 1)
             .attr("text-decoration", "line-through");
@@ -335,35 +366,13 @@
                }
             });            
 
+      d3.select("div#hcpcs_accordion div#quant_hcpcs div#list").select("ul").selectAll("li.draggable")
+         .data(hcpcs_alias)
+         .enter().append("li")
+         .attr("class", "draggable")
+         .html(function(d) { return d.hcpcs_name; });
+
       </script>
-      <div id = "hcpcs_accordion">
-         <h3>Quantitative Drug Tests</h3>
-         <div id = "qual_hcpcs" class = "hcpcs_list">
-         <ul>
-         <li class = "draggable">Opiates</li>
-         <li class = "draggable">Column Chromatography</li>
-         <li class = "draggable">Mass Spectrometry</li>
-         <li class = "draggable">Opiates</li>
-         <li class = "draggable">Column Chromatography</li>
-         <li class = "draggable">Mass Spectrometry</li>
-         <li class = "draggable">Benzodiazepines</li>
-         <li class = "draggable">Barbituates</li>
-         <li class = "draggable">Lithium</li>
-         <li class = "draggable">Quantitation of Drug</li>
-         <li class = "draggable">Benzodiazepines</li>
-         <li class = "draggable">Barbituates</li>
-         </ul>
-         </div>
-         <!--
-         <h3>Quantitative Drug Tests</h3>
-         <div id = "quant_hcpcs" class = "hcpcs_list">
-         <ul>
-         <li class = "draggable">G0431</li>
-         <li class = "draggable">G0434</li>
-         </ul>
-         </div>
-         -->
-      </div>
 
       <svg height = "0px" width = "0px">
         <defs>
