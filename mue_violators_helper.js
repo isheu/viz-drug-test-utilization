@@ -5,6 +5,12 @@ some sort of static tag at the side? persistent toolbar
 
 ALIASES: for the selected codes... so easily selectable 1-2-3-4
 Some sort of generator function for annotations -- it has internal counter tracking the # of annotations out, and so can select. But with resizing... not really feasible to be very automated
+
+Filter box 
+OneTab
+
+Accordion
+ + Sortable/Draggable
 */
 
 function reel_label(hcpcs_div, code) {

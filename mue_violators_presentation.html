@@ -16,6 +16,32 @@
    </head>
    <body>
       <script type="text/javascript">
+         $(function() {
+            $( "#hcpcs_accordion" ).accordion({
+               collapsible: true
+            });
+            
+            $( "#sortable" ).sortable({
+               revert: true
+            });
+            $( ".draggable" ).draggable({
+               connectToSortable: "#sortable",
+               helper: "clone",
+               revert: "invalid"
+            });
+            $( "ul, li" ).disableSelection();
+            $( ".hcpcs_bubble" ).droppable({
+               accept: ".draggable",
+               tolerance: "pointer",
+               hoverClass: "hcpcs-bubble-hover",
+               activeClass: "hcpcs-bubble-active",
+               drop: function( event, ui ) {
+               $( this )
+                  .addClass( "hcpcs_bubble_hover" )
+                  //.addClass( "ui-state-highlight" )
+               }
+            });
+         });
          var wndw_width = $( window ).width();
          var column_0_x = 0.15 * wndw_width;
          var column_1_x = column_0_x + 140;
@@ -310,6 +336,35 @@
             });            
 
       </script>
+      <div id = "hcpcs_accordion">
+         <h3>Quantitative Drug Tests</h3>
+         <div id = "qual_hcpcs" class = "hcpcs_list">
+         <ul>
+         <li class = "draggable">Opiates</li>
+         <li class = "draggable">Column Chromatography</li>
+         <li class = "draggable">Mass Spectrometry</li>
+         <li class = "draggable">Opiates</li>
+         <li class = "draggable">Column Chromatography</li>
+         <li class = "draggable">Mass Spectrometry</li>
+         <li class = "draggable">Benzodiazepines</li>
+         <li class = "draggable">Barbituates</li>
+         <li class = "draggable">Lithium</li>
+         <li class = "draggable">Quantitation of Drug</li>
+         <li class = "draggable">Benzodiazepines</li>
+         <li class = "draggable">Barbituates</li>
+         </ul>
+         </div>
+         <!--
+         <h3>Quantitative Drug Tests</h3>
+         <div id = "quant_hcpcs" class = "hcpcs_list">
+         <ul>
+         <li class = "draggable">G0431</li>
+         <li class = "draggable">G0434</li>
+         </ul>
+         </div>
+         -->
+      </div>
+
       <svg height = "0px" width = "0px">
         <defs>
           <linearGradient id="grad1" x1="0%" y1="0%" x2="100%" y2="0%">
