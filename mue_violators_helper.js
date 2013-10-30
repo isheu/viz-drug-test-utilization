@@ -9,26 +9,33 @@ Some sort of generator function for annotations -- it has internal counter track
 Filter box 
 OneTab
 
-Accordion
- + Sortable/Draggable
+Still to do: NPI detail table to accept new codes, repopulate combobox's search list based on 3 selected codes.
+Relative positioning of HCPCS menu.
+Icons to denote codes of especial interest.
+Set to show only the data series currently active on legend.
+
+If code has no billing in a year, indicate!
+
+Work on the Cost Avoidance document
+Write-up of the MAI2 Methodology
 */
 
 function reel_label(hcpcs_div, code) {
    function gen_reel_label() {
       d3.select("div#" + hcpcs_div).selectAll("div#bubble_" + code)
-         .data(hcp_select.filter(function(d) { return d.hcpcs == code; }))
+         .data(hcpcs_alias.filter(function(d) { return d.hcpcs == code; }))
          .enter().append("div")
          .style("left", function() { return column_0_x; })
          .attr("id", function(d, i) { return "bubble_" + code; })
          .attr("class", "hcpcs_bubble")
          .style("margin-top", 4).style("margin-bottom", 4).style("margin-left", 4);
-      d3.select("div#bubble_" + code).append("table")
+      d3.select("div#" + hcpcs_div).select("div#bubble_" + code).append("table")
          .attr("id", function() { return "bubble_table_" + code; })
          .attr("width", "100%")
          .append("thead").append("td").attr("width", "100%").attr("height", 120).style("text-align", "center").style("vertical-align", "bottom")
          .html(function(d) { return "<h1>" + d.hcpcs + "</h1>"; });
-      d3.select("#bubble_table_"  + code).append("tr").append("td").style("text-align", "center")
-         .html(function(d) { return d.description; });
+      d3.select("div#" + hcpcs_div).select("#bubble_table_"  + code).append("tr").append("td").style("text-align", "center")
+         .html(function(d) { return d.hcpcs_name; });
    }
    return gen_reel_label;
 }

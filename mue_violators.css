@@ -21,6 +21,16 @@
 #sorter_3 { right: 40px; }
 #sorter_4 { right: 4px; }
 
+.sorted_on {
+   text-decoration: underline;
+   color: #cc181e;
+}
+
+#hcpcs_accordion li.draggable span.hcpcs_menu_metric {
+   float: right;
+   margin-right: 7px;
+}
+
 #title_reel {
    height: 25;
    background-image: url(patterns/bg-striped.png); 
@@ -45,7 +55,7 @@
    font-family: Calibri, Arial, Lucida Sans, Lucida Grande;
 }
 #hcpcs_accordion .hcpcs_list {
-   height: 595;
+   height: 595;  
    margin: 0;
    padding: 0;
    font-family: Arial, Lucida Sans, Lucida Grande;

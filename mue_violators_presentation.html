@@ -7,6 +7,7 @@
       <!-- <script type="text/javascript" src="../../libraries/bootstrap-3.0.0-dist/js/bootstrap.min.js"></script>  -->
       <script type="text/javascript" src="./mue_violators_helper.js"></script>
       <script type="text/javascript" src="./drug_test_mue_data.js"></script>
+      <script type="text/javascript" src="./mue_violators_menu.js"></script>
 
       <!-- <link rel="stylesheet" type="text/css" href="../../libraries/bootstrap-3.0.0-dist/css/bootstrap.min.css" /> -->
       <link rel="stylesheet" type="text/css" href="./mue_violators.css" />
@@ -27,25 +28,32 @@
          </div>
       </div>
       <script type="text/javascript">
+         var dragged_hcpcs_id = "";
+         var dropped_reel_id = "";
          $(function() {
             $( "#hcpcs_accordion" ).accordion({
                collapsible: true
             });
             
             $( ".draggable" ).draggable({
+               start: function(event, ui) { dragged_hcpcs_id = d3.select(this).data()[0].hcpcs; },
                helper: "clone",
                revert: "invalid"
             });
             $( "ul, li" ).disableSelection();
             $( ".hcpcs_bubble" ).droppable({
                accept: ".draggable",
-               tolerance: "pointer",
+               tolerance: "touch",
                hoverClass: "hcpcs-bubble-hover",
                activeClass: "hcpcs-bubble-active",
-               drop: function( event, ui ) {
+               drop: function( event, ui ) {                 
+                  dropped_reel_id = $( this ).parents().attr("id");
+                  clear_reel(dropped_reel_id);
+                  populate_reel(dropped_reel_id, dragged_hcpcs_id)
                }
             });
          });
+
          var wndw_width = $( window ).width();
          var column_0_x = 0.15 * wndw_width;
          var column_1_x = column_0_x + 140;
@@ -66,19 +74,6 @@
          })
 
          var hcpcs_cd_list = ["83925", "83789", "82542"];
-
-         /*
-         var chroma_interpolator = chroma.interpolate.bezier(['blue', 'white']);
-         console.log(chroma_interpolator(0).hex())
-         console.log(chroma_interpolator(0.33).hex())
-         console.log(chroma_interpolator(0.66).hex())
-         console.log(chroma_interpolator(1).hex())
-         var chroma_interpolator_lightness = chroma.scale(['blue', 'white']).correctLightness(true);
-         console.log(chroma_interpolator_lightness(0).hex())
-         console.log(chroma_interpolator_lightness(0.33).hex())
-         console.log(chroma_interpolator_lightness(0.66).hex())
-         console.log(chroma_interpolator_lightness(1).hex())
-         */
 
          var yr_formatter = d3.format("g");
          var price_formatter = d3.format(">,s");
@@ -132,20 +127,21 @@
             }) 
          });
 
-         d3.select("body").append("div").attr("id", "opiate_reel").attr("class", "code_reel").style("background-color", "#C5D0D4");
-         d3.select("body").append("div").attr("id", "chromatography_reel").attr("class", "code_reel").style("background-color", "#CBD8E3");
-         d3.select("body").append("div").attr("id", "mass_spectrometry_reel").attr("class", "code_reel").style("background-color", "#C5D0D4");
+         // Initialize to 3 Reels //
+         d3.select("body").append("div").attr("id", "reel_1").attr("class", "code_reel").style("background-color", "#C5D0D4");
+         d3.select("body").append("div").attr("id", "reel_2").attr("class", "code_reel").style("background-color", "#CBD8E3");
+         d3.select("body").append("div").attr("id", "reel_3").attr("class", "code_reel").style("background-color", "#C5D0D4");
 
-         var opiate_label = reel_label("opiate_reel", "83925"); 
+         var opiate_label = reel_label("reel_1", "83925"); 
          opiate_label(); 
-         var chromatography_label = reel_label("chromatography_reel", "82542"); 
+         var chromatography_label = reel_label("reel_2", "82542"); 
          chromatography_label();
-         var mass_spectrometry_label = reel_label("mass_spectrometry_reel", "83789"); 
+         var mass_spectrometry_label = reel_label("reel_3", "83789"); 
          mass_spectrometry_label();
 
-         d3.select("div#opiate_reel").append("svg").attr("id", "opiate_reel_svg").attr("class", "code_reel_svg");
-         d3.select("div#chromatography_reel").append("svg").attr("id", "chromatography_reel_svg").attr("class", "code_reel_svg");
-         d3.select("div#mass_spectrometry_reel").append("svg").attr("id", "mass_spectrometry_reel_svg").attr("class", "code_reel_svg");
+         d3.select("div#reel_1").append("svg").attr("id", "reel_1_svg").attr("class", "code_reel_svg");
+         d3.select("div#reel_2").append("svg").attr("id", "reel_2_svg").attr("class", "code_reel_svg");
+         d3.select("div#reel_3").append("svg").attr("id", "reel_3_svg").attr("class", "code_reel_svg");
          
          // DATA READ-IN //
          var hcpcs_yearly_data = [];
@@ -157,18 +153,18 @@
                      "yr_n_excess_npis": +d.n_npi_overpmt, "yr_n_excess_npis_90": +d.n_npi_90_pct, "yr_top_5_npi_pmt": +d.top_5_npi_pmt, "yr_top_5_npi_p_pmt": +d.pct_top_5_npi_pmt * 100
                   });
             });
-            var opiate_line_plot = year_linechart("83925", "opiate_reel", "opiate_line", "opiate")
+            var opiate_line_plot = year_linechart("83925", "reel_1", "reel_1_line", "reel_1")
             opiate_line_plot();
-            var chromatography_line_plot = year_linechart("82542", "chromatography_reel", "chromatography_line", "chromatography")
+            var chromatography_line_plot = year_linechart("82542", "reel_2", "reel_2_line", "reel_2")
             chromatography_line_plot();
-            var mass_spectrometry_line_plot = year_linechart("83789", "mass_spectrometry_reel", "mass_spectrometry_line", "mass_spectrometry")
+            var mass_spectrometry_line_plot = year_linechart("83789", "reel_3", "reel_3_line", "reel_3")
             mass_spectrometry_line_plot();
 
-            var opiate_bar_plot = stackedbar("83925", "opiate_reel", "opiate_bar", "opiate"); 
+            var opiate_bar_plot = stackedbar("83925", "reel_1", "reel_1_bar", "reel_1"); 
             opiate_bar_plot(); 
-            var chromatography_bar_plot = stackedbar("82542", "chromatography_reel", "chromatography_bar", "chromatography"); 
+            var chromatography_bar_plot = stackedbar("82542", "reel_2", "reel_2_bar", "reel_2"); 
             chromatography_bar_plot(); 
-            var mass_spectrometry_bar_plot = stackedbar("83789", "mass_spectrometry_reel", "mass_spectrometry_bar", "mass_spectrometry"); 
+            var mass_spectrometry_bar_plot = stackedbar("83789", "reel_3", "reel_3_bar", "reel_3"); 
             mass_spectrometry_bar_plot(); 
          });
 
@@ -183,23 +179,22 @@
                      "cumul_excess_pmt": +d.cumul_overpmt, "cumul_p_excess_pmt": +d.pct_cumul_overpmt * 100, "cumul_excess_benes": +d.cumul_unique_benes, "cumul_p_excess_benes": +d.pct_cumul_unique_benes * 100, 
                      });
             });
-            var opiate_cdf_plot = npi_cumul_scatterplot("83925", "opiate_reel", "opiate_cdf_npi", "opiate")
+            var opiate_cdf_plot = npi_cumul_scatterplot("83925", "reel_1", "reel_1_cdf_npi", "reel_1")
             opiate_cdf_plot()
-            var chromatography_cdf_plot = npi_cumul_scatterplot("82542", "chromatography_reel", "chromatography_cdf_npi", "chromatography")
+            var chromatography_cdf_plot = npi_cumul_scatterplot("82542", "reel_2", "reel_2_cdf_npi", "reel_2")
             chromatography_cdf_plot()
-            var mass_spectrometry_cdf_plot = npi_cumul_scatterplot("83789", "mass_spectrometry_reel", "mass_spectrometry_cdf_npi", "mass_spectrometry")
+            var mass_spectrometry_cdf_plot = npi_cumul_scatterplot("83789", "reel_3", "reel_3_cdf_npi", "reel_3")
             mass_spectrometry_cdf_plot()
 
-            var opiate_pdf_plot = npi_pdf_scatterplot("83925", "opiate_reel", "opiate_pdf_npi", "opiate")
+            var opiate_pdf_plot = npi_pdf_scatterplot("83925", "reel_1", "reel_1_pdf_npi", "reel_1")
             opiate_pdf_plot()
-            var chromatography_pdf_plot = npi_pdf_scatterplot("82542", "chromatography_reel", "chromatography_pdf_npi", "chromatography")
+            var chromatography_pdf_plot = npi_pdf_scatterplot("82542", "reel_2", "reel_2_pdf_npi", "reel_2")
             chromatography_pdf_plot()
-            var mass_spectrometry_pdf_plot = npi_pdf_scatterplot("83789", "mass_spectrometry_reel", "mass_spectrometry_pdf_npi", "mass_spectrometry")
+            var mass_spectrometry_pdf_plot = npi_pdf_scatterplot("83789", "reel_3", "reel_3_pdf_npi", "reel_3")
             mass_spectrometry_pdf_plot()
 
             d3.selectAll("circle#scatter_pts").filter(function(d) { return (+d.year != 2013); })
                .classed("scatter_unchecked", 1);
-
          });
 
          d3.select("body").append("div").attr("id", "legend_reel")
@@ -367,10 +362,21 @@
             });            
 
       d3.select("div#hcpcs_accordion div#quant_hcpcs div#list").select("ul").selectAll("li.draggable")
-         .data(hcpcs_alias)
+         .data(hcpcs_alias.sort(compare_hcpcs_name))
          .enter().append("li")
          .attr("class", "draggable")
          .html(function(d) { return d.hcpcs_name; });
+      
+      d3.select("div#hcpcs_accordion div#quant_hcpcs div#list").select("ul").selectAll("li.draggable").append("span")
+         .attr("class", "hcpcs_menu_metric")
+         .html(function(d) { return d.hcpcs; });
+
+      d3.selectAll(".hcpcs_sorter span")
+         .on("click", function() {
+            d3.selectAll(".hcpcs_sorter span").classed("sorted_on", 0)
+            d3.select(this).classed("sorted_on", 1)
+            sort_hcpcs_menu(compare_hcpcs_code, 0)
+         })
 
       </script>
 

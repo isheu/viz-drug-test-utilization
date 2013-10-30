@@ -24,7 +24,7 @@ var hcpcs_alias =
    {"hcpcs": "83925", "hcpcs_name":"Opiates"},
    {"hcpcs": "83992", "hcpcs_name":"Phencyclidine (PCP)"},
    {"hcpcs": "84022", "hcpcs_name":"Phenothiazine"},
-   {"hcpcs": "84311", "hcpcs_name":"Spectrophotometry, Other"}]
+   {"hcpcs": "84311", "hcpcs_name":"Spectro-photometry, Other"}]
 
 var top_npi_names = 
    [{"name":"Accela Medical, Llc "},

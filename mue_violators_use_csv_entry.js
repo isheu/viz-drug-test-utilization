@@ -1,3 +1,16 @@
+         /*
+         var chroma_interpolator = chroma.interpolate.bezier(['blue', 'white']);
+         console.log(chroma_interpolator(0).hex())
+         console.log(chroma_interpolator(0.33).hex())
+         console.log(chroma_interpolator(0.66).hex())
+         console.log(chroma_interpolator(1).hex())
+         var chroma_interpolator_lightness = chroma.scale(['blue', 'white']).correctLightness(true);
+         console.log(chroma_interpolator_lightness(0).hex())
+         console.log(chroma_interpolator_lightness(0.33).hex())
+         console.log(chroma_interpolator_lightness(0.66).hex())
+         console.log(chroma_interpolator_lightness(1).hex())
+         */
+
 
          /*
          auc_shader(5);
