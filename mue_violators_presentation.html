@@ -110,22 +110,6 @@
 	    .attr("class", "chart-title").attr("id", "title_4")
             .attr("x", function() { return column_4_x + 25; }).attr("y", 18);
          
-         // Use JQueryUI "ComboBox" //
-         var cbox_providers = d3.select("div#title_reel").append("div")
-            .attr("id", "cbox_div")
-            .style("position","absolute")
-            .style("left", function() { return column_5_x;})
-            .style("top", 37)
-            .append("select").attr("id", "cbox_providers").style("width", 225);
-         cbox_providers.selectAll("option")
-            .data(top_npi_names).enter().append("option")
-            .attr("value", function(d) { return d.name; })
-            .text(function(d) { return d.name; });        
-         $(function() { $("select").combobox(); });
-         $(function() { $("input:text").focus(function() { 
-               this.value = ""; 
-            }) 
-         });
 
          // Initialize to 3 Reels //
          d3.select("body").append("div").attr("id", "reel_1").attr("class", "code_reel").style("background-color", "#C5D0D4");
@@ -178,6 +162,38 @@
                      "npi_excess_visits": +d.excess_visits, "npi_total_units": +d.total_units, "npi_excess_units": +d.excess_units, 
                      "cumul_excess_pmt": +d.cumul_overpmt, "cumul_p_excess_pmt": +d.pct_cumul_overpmt * 100, "cumul_excess_benes": +d.cumul_unique_benes, "cumul_p_excess_benes": +d.pct_cumul_unique_benes * 100, 
                      });
+            });
+            var raw_top_npi_names = [];
+            hcpcs_top_npi_data.forEach(function(d) {
+               raw_top_npi_names.push({"name": d.name, "npi": d.npi });
+            })
+            console.log(raw_top_npi_names)
+
+            raw_top_npi_names.sort( function(a, b){ return a.npi - b.npi; } );
+            for( var i=0; i<raw_top_npi_names.length-1; i++ ) {
+              if ( raw_top_npi_names[i].npi == raw_top_npi_names[i+1].npi ) {
+                delete raw_top_npi_names[i];
+              }
+            }
+            // remove the "undefined entries"
+            var top_npi_names = raw_top_npi_names.filter( function( el ){ return (typeof el !== "undefined"); } );
+            console.log(top_npi_names)
+
+            // Use JQueryUI "ComboBox" //
+            var cbox_providers = d3.select("div#title_reel").append("div")
+               .attr("id", "cbox_div")
+               .style("position","absolute")
+               .style("left", function() { return column_5_x;})
+               .style("top", 37)
+               .append("select").attr("id", "cbox_providers").style("width", 225);
+            cbox_providers.selectAll("option")
+               .data(top_npi_names).enter().append("option")
+               .attr("value", function(d) { return d.name; })
+               .text(function(d) { return d.name; });        
+            $(function() { $("select").combobox(); });
+            $(function() { $("input:text").focus(function() { 
+                  this.value = ""; 
+               }) 
             });
             var opiate_cdf_plot = npi_cumul_scatterplot("83925", "reel_1", "reel_1_cdf_npi", "reel_1")
             opiate_cdf_plot()
