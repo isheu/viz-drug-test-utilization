@@ -56,20 +56,34 @@
 
          var wndw_width = $( window ).width();
          var column_0_x = 0.15 * wndw_width;
+         /*
          var column_1_x = column_0_x + 140;
          var column_2_x = column_0_x + 380;
          var column_3_x = column_0_x + 565;
          var column_4_x = column_0_x + 815;
          var column_5_x = column_0_x + 1065;
+         */
 
+         var column_1_x = column_0_x + 240;
+         var column_2_x = column_0_x + 480;
+         var column_3_x = column_0_x + 665;
+         var column_4_x = column_0_x + 915;
+         var column_5_x = column_0_x + 1165;
          $( window ).resize(function() {
             wndw_width = $( window ).width();
             column_0_x = 0.15 * wndw_width;
+            column_1_x = column_0_x + 240;
+            column_2_x = column_0_x + 480;
+            column_3_x = column_0_x + 665;
+            column_4_x = column_0_x + 915;
+            column_5_x = column_0_x + 1165;
+            /*
             column_1_x = column_0_x + 140;
             column_2_x = column_0_x + 380;
             column_3_x = column_0_x + 565;
             column_4_x = column_0_x + 815;
             column_5_x = column_0_x + 1065;
+            */
             resizer()
          })
 
