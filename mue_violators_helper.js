@@ -28,16 +28,12 @@ function reel_label(hcpcs_div, code) {
          .data(hcpcs_alias.filter(function(d) { return d.hcpcs == code; }))
          .enter().append("div")
          .style("left", function() { return column_0_x; })
-         .attr("id", function(d, i) { return "bubble_" + code; })
+         .attr("id", function() { return "bubble_" + code; })
          .attr("class", "hcpcs_bubble")
          .style("margin-top", 4).style("margin-bottom", 4).style("margin-left", 4);
-      d3.select("div#" + hcpcs_div).select("div#bubble_" + code).append("table")
+      d3.select("div#" + hcpcs_div).select("div#bubble_" + code).append("div")
          .attr("id", function() { return "bubble_table_" + code; })
-         .attr("width", "100%")
-         .append("thead").append("td").attr("width", "100%").attr("height", 120).style("text-align", "center").style("vertical-align", "bottom")
-         .html(function(d) { return "<h1>" + d.hcpcs + "</h1>"; });
-      d3.select("div#" + hcpcs_div).select("#bubble_table_"  + code).append("tr").append("td").style("text-align", "center")
-         .html(function(d) { return d.hcpcs_name; });
+         .html(function(d) { return "<h1>" + d.hcpcs + "</h1><p>" + d.hcpcs_name + "</p><p>" + "Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud" + "</p>"; });
    }
    return gen_reel_label;
 }

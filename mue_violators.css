@@ -95,8 +95,8 @@
 
 .headline {
    background-color: #eee;
-   height: 31;
-   padding-top: 5;
+   height: 26px;
+   padding-top: 10px;
    margin-top: 0;
    margin-bottom: 0;
    border-bottom: 1 solid rgb(255,153,0);
@@ -273,13 +273,22 @@ div#hcpcs_reel_active {
 
 div.hcpcs_bubble {
    position: absolute;
-   height: 190;
-   width: 100;
-   background-color: #406584;
-   border-style: solid;
-   border-color: rgba(80,50,15,0.2);
-   border-width: 1px;
-   border-radius: 10px;
+   height: 190px;
+   width: 220px;
+}
+
+.hcpcs_bubble p {
+   font-size: 24px; 
+   margin: 12px 0;
+}
+
+.hcpcs_bubble p:last-child {
+   font-size: 12px;
+   padding-right: 12px;
+}
+
+.hcpcs_bubble h1 {
+   font-size: 12px;
 }
 
 div.hcpcs-bubble-active {
