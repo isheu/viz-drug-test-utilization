@@ -16,10 +16,10 @@
 #hcpcs_accordion li.hcpcs_sorter span:hover {
    color: #cc181e;
 }
-#sorter_1 { right: 83px; }
-#sorter_2 { right: 65px; }
-#sorter_3 { right: 40px; }
-#sorter_4 { right: 4px; }
+#sorter_name { right: 83px; }
+#sorter_pmt { right: 65px; }
+#sorter_ovp { right: 40px; }
+#sorter_p_ovp { right: 4px; }
 
 .sorted_on {
    text-decoration: underline;

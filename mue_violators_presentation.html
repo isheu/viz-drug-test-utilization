@@ -14,6 +14,8 @@
       <link rel="stylesheet" type="text/css" href="../../libraries/jquery-ui-1.10.3/themes/base/jquery-ui.css" />
 
       <title>Quantitative Drug Testing MUE Violations over Time </title>
+
+      <!-- When appropriate to add jitter? -->
    </head>
    <body>
       <div id = "hcpcs_accordion">
@@ -21,7 +23,7 @@
          <div id = "quant_hcpcs" class = "hcpcs_list">
          <div>
             <ul>
-            <li class = "hcpcs_sorter">Rank by: <span id = "sorter_1">ABC</span> <span id = "sorter_2">$$</span> <span id = "sorter_3">OVP</span>  <span id = "sorter_4">% OVP</span></li>
+            <li class = "hcpcs_sorter">Rank by: <span id = "sorter_name">ABC</span> <span id = "sorter_pmt">$$</span> <span id = "sorter_ovp">OVP</span>  <span id = "sorter_p_ovp">% OVP</span></li>
             </ul>
          </div>
          <div id = "list"><ul></ul></div>
@@ -88,7 +90,7 @@
          var hcpcs_yearly_data = [];
 
          d3.select("body").append("div").attr("class", "headline")
-            .html("Utilization and MUE Violations of Codes 83925, 82542, and 83780");
+            .html("Utilization and MUE Violations of Drug Testing Procedure Codes");
 
          d3.select("body").append("div").attr("id", "title_reel");
          
@@ -371,13 +373,31 @@
          .attr("class", "hcpcs_menu_metric")
          .html(function(d) { return d.hcpcs; });
 
-      d3.selectAll(".hcpcs_sorter span")
+      d3.select(".hcpcs_sorter span#sorter_name").classed("sorted_on", 1)
+      d3.select(".hcpcs_sorter span#sorter_name")
          .on("click", function() {
             d3.selectAll(".hcpcs_sorter span").classed("sorted_on", 0)
             d3.select(this).classed("sorted_on", 1)
-            sort_hcpcs_menu(compare_hcpcs_code, 0)
+            sort_hcpcs_menu(compare_hcpcs_name, 0)
          })
-
+      d3.select(".hcpcs_sorter span#sorter_pmt")
+         .on("click", function() {
+            d3.selectAll(".hcpcs_sorter span").classed("sorted_on", 0)
+            d3.select(this).classed("sorted_on", 1)
+            sort_hcpcs_menu(compare_hcpcs_pmt, 0)
+         })
+      d3.select(".hcpcs_sorter span#sorter_ovp")
+         .on("click", function() {
+            d3.selectAll(".hcpcs_sorter span").classed("sorted_on", 0)
+            d3.select(this).classed("sorted_on", 1)
+            sort_hcpcs_menu(compare_hcpcs_ovp, 0)
+         })
+      d3.select(".hcpcs_sorter span#sorter_p_ovp")
+         .on("click", function() {
+            d3.selectAll(".hcpcs_sorter span").classed("sorted_on", 0)
+            d3.select(this).classed("sorted_on", 1)
+            sort_hcpcs_menu(compare_hcpcs_p_ovp, 0)
+         })
       </script>
 
       <svg height = "0px" width = "0px">

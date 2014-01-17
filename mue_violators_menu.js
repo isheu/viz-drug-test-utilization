@@ -42,8 +42,18 @@ function compare_hcpcs_name(a, b) {
    if (a.hcpcs_name > b.hcpcs_name) { return 1; }
    else { return 0; }
 }
-function compare_hcpcs_code(a, b) {
-   if (a.hcpcs < b.hcpcs) { return -1; }
-   if (a.hcpcs > b.hcpcs) { return 1; }
+function compare_hcpcs_pmt(a, b) {
+   if (a.pmt < b.pmt) { return 1; }
+   if (a.pmt > b.pmt) { return -1; }
+   else { return 0; }
+}
+function compare_hcpcs_ovp(a, b) {
+   if (a.ovp < b.ovp) { return 1; }
+   if (a.ovp > b.ovp) { return -1; }
+   else { return 0; }
+}
+function compare_hcpcs_p_ovp(a, b) {
+   if (a.p_ovp < b.p_ovp) { return 1; }
+   if (a.p_ovp > b.p_ovp) { return -1; }
    else { return 0; }
 }
