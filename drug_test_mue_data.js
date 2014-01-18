@@ -1,4 +1,5 @@
 var hcpcs_alias = 
+<<<<<<< HEAD
    [{"hcpcs": "80100", "p_ovp": 0, "ovp": 0, "pmt": 0, "hcpcs_name":"Drug Screen, Multiple"},
    {"hcpcs": "80101", "p_ovp": 0, "ovp": 0, "pmt": 71, "hcpcs_name":"Drug Screen, Single"},
    {"hcpcs": "80102", "p_ovp": 0.16573056, "ovp": 1251277.978, "pmt": 7550073.91, "hcpcs_name":"Drug Confirmation"},
