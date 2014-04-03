@@ -1,17 +1,14 @@
 <html>
    <head>
-      <script type="text/javascript" src="./d3.v3.min.js"></script>
-      <script type="text/javascript" src="./jquery-1.10.2.js"></script>
-      <script type="text/javascript" src="../../libraries/jquery-ui-1.10.3/ui/jquery-ui.js"></script>      
-      <!-- <script type="text/javascript" src="../../libraries/chroma.js-master/chroma.min.js"></script>  -->
-      <!-- <script type="text/javascript" src="../../libraries/bootstrap-3.0.0-dist/js/bootstrap.min.js"></script>  -->
+      <script src="http://d3js.org/d3.v3.min.js" charset="utf-8"></script>
+      <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+      <script src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.10.3/jquery-ui.min.js"></script>
       <script type="text/javascript" src="./mue_violators_helper.js"></script>
       <script type="text/javascript" src="./drug_test_mue_data.js"></script>
       <script type="text/javascript" src="./mue_violators_menu.js"></script>
 
-      <!-- <link rel="stylesheet" type="text/css" href="../../libraries/bootstrap-3.0.0-dist/css/bootstrap.min.css" /> -->
       <link rel="stylesheet" type="text/css" href="./mue_violators.css" />
-      <link rel="stylesheet" type="text/css" href="../../libraries/jquery-ui-1.10.3/themes/base/jquery-ui.css" />
+      <link rel="stylesheet" href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.10.3/themes/smoothness/jquery-ui.css" />
 
       <title>Quantitative Drug Testing MUE Violations over Time </title>
 
@@ -155,7 +152,7 @@
          });
 
          var hcpcs_top_npi_data = [];
-         d3.csv("data/top_npi_quant_test_mue.csv", function(dataset) {
+         d3.csv("data/anonymized_lab_data.csv", function(dataset) {
             dataset.forEach(function(d) {
                hcpcs_top_npi_data.push(
                     {"year": +d.year, "hcpcs": d.hcpcs_cd, "top_x": +d.rank, "npi": d.npi, "name": d.name, "classification": d.classification, 
