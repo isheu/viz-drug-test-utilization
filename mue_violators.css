@@ -1,10 +1,31 @@
-.hcpcs_sorter {
-   background-image: url(patterns/bg-striped.png); 
+.tutorial_arrow { stroke: #57945a; }
+.tutorial_blurb { z-index: 5; }
+
+.drag_tutorial {
+   text-align: center;
+   text-transform: uppercase;
+   text-shadow: 1px 1px 0 #000000;
+   position: absolute;
+   top: 10%;
+   font-size: 20px;
+   color: #ff7800;
+}
+.bubble_title {
+   color: rgb(230,230,230);
+   font-size: 22px;
+   padding-top: 70px;
+}
+.bubble_subtitle {
+   color: rgb(215,215,215);
+   font-weight: normal;
+   font-size: 12px;
 }
 
-.draggable {
-   cursor: pointer; 
+#hcpcs_accordion li.draggable span.hcpcs_menu_metric {
+   float: right;
+   margin-right: 7px;
 }
+
 #hcpcs_accordion li.draggable:hover {
    background-color: rgba(226, 229, 229, 0.9);
 }
@@ -13,9 +34,21 @@
    cursor: pointer; 
    position: absolute;
 }
-#hcpcs_accordion li.hcpcs_sorter span:hover {
-   color: #cc181e;
+
+#hcpcs_accordion li.hcpcs_sorter span:hover { color: #cc181e; }
+
+#hcpcs_accordion h3 {
+   letter-spacing: 0px;
+   padding: 2px 4px 2px 25px; 
+   color: #333;
+   font-size: 11.5px;
+   font-family: Calibri, Arial, Lucida Sans, Lucida Grande;
 }
+
+.hcpcs_sorter { background-image: url(patterns/bg-striped.png); }
+
+.draggable { cursor: pointer; }
+
 #sorter_name { right: 83px; }
 #sorter_pmt { right: 65px; }
 #sorter_ovp { right: 40px; }
@@ -26,46 +59,34 @@
    color: #cc181e;
 }
 
-#hcpcs_accordion li.draggable span.hcpcs_menu_metric {
-   float: right;
-   margin-right: 7px;
-}
-
 #title_reel {
-   height: 25;
+   width: 100%;
+   height: 25px;
    background-image: url(patterns/bg-striped.png); 
-   margin-top: 0;
-   margin-bottom: 0;
+   margin: 0px;
 }
 
 #hcpcs_accordion {
-   z-index: 5;
+   z-index: 1;
    position: absolute;
-   width: 200;
-   padding: 0;
-   margin: 0;
-   top: 37;
-   left: 60;
-}
-#hcpcs_accordion h3 {
-   letter-spacing: 0px;
-   padding: 2 4 2 25; 
-   color: #333;
-   font-size: 11.5;
-   font-family: Calibri, Arial, Lucida Sans, Lucida Grande;
+   width: 200px;
+   padding: 0px;
+   margin: 0px;
+   top: 42px;
+   left: 78px;
 }
 #hcpcs_accordion .hcpcs_list {
-   height: 595;  
-   margin: 0;
-   padding: 0;
+   height: 595px;  
+   margin: 0px;
+   padding: 0px;
    font-family: Arial, Lucida Sans, Lucida Grande;
-   font-size: 10;
+   font-size: 10px;
    color: #666;
 }
 
 #hcpcs_accordion ul {
-   margin: 0;
-   padding: 0;
+   margin: 0px;
+   padding: 0px;
    background-color: rgba(226, 229, 229, 0.5);
 }
 
@@ -74,46 +95,46 @@
    line-height: 21px;
    background-color: rgba(226, 229, 229, 0.5);
    list-style-type: none;
-   margin: 0;
-   width: 183;
-   padding: 0 0 0 15; 
-   border-bottom: 1 solid #999;
-   height: 21;
+   margin: 0px;
+   width: 183px;
+   padding-left: 15px; 
+   border-bottom: 1px solid #999;
+   height: 21px;
 }
 
 #hcpcs_accordion li.hcpcs_sorter {
-   font-size: 9;
+   font-size: 9px;
    line-height: 15px;
-   background-color: rgba(226, 229, 229, 1);
+   background-color: rgb(226, 229, 229);
    list-style-type: none;
-   margin: 0;
-   padding: 0 0 0 5; 
-   border-bottom: 1 solid #999;
-   width: 193;
-   height: 15;
+   margin: 0px;
+   padding-left: 5px; 
+   border-bottom: 1px solid #999;
+   width: 193px;
+   height: 15px;
 }
 
 .headline {
    background-color: #eee;
-   height: 31;
-   padding-top: 5;
-   margin-top: 0;
-   margin-bottom: 0;
-   border-bottom: 1 solid rgb(255,153,0);
+   height: 31px;
+   padding-top: 5px;
+   margin-top: 0px;
+   margin-bottom: 0px;
+   border-bottom: 1px solid rgb(255,153,0);
    text-align: center;
-   font-size: 14;
+   font-size: 14px;
    font-family: Calibri, Arial, Lucida Sans, Lucida Grande;
 }
 
 .code_reel {
-   margin-top: 0;
-   margin-bottom: 0;
-   border-top: 1 solid #999;
-   height: 200;
+   margin-top: 0px;
+   margin-bottom: 0px;
+   border-top: 1px solid #999;
+   height: 200px;
 }
 
 .chart-title {
-   font-size: 14;
+   font-size: 14px;
    font-family: Calibri, Arial, Lucida Sans, Lucida Grande; 
    font-weight: normal;
    fill: #444; 
@@ -121,31 +142,31 @@
 
 .code_reel_svg {
    shape-rendering: crispEdges; 
-   width: 1400;
-   height: 200;
+   width: 1400px;
+   height: 200px;
 }
 
 #legend_reel {
-   height: 50;
+   height: 50px;
    background-color: #CBD8E3; 
-   margin-top: 15; 
-   margin-bottom: 15;
+   margin-top: 15px; 
+   margin-bottom: 15px;
 }
 
 #show_annotation {
    position: absolute; 
-   margin: 0;
-   padding: 0;
-   top: 42;
-   height: 18;
-   width: 102;
-   margin-left: 3;            
+   margin: 0px;
+   padding: 0px;
+   top: 47px;
+   height: 18px;
+   width: 102px;
+   margin-left: 3px;            
 }
 
 div.text-annotation {
    position: absolute; 
-   padding-right: 5;
-   padding-left: 5; 
+   padding-right: 5px;
+   padding-left: 5px; 
    background-image: -webkit-linear-gradient(left, rgba(255,255,255,0.75) 0%, rgba(255,255,255,0) 100%);
 }
 
@@ -153,7 +174,7 @@ a.gen_annotation_clicked {
    text-decoration: none;   
    font-weight: bold;   
    padding: 2px 3px;
-   margin: 0 -1px 0 0;   
+   margin: 0px -1px 0px 0px;   
    background-color: #FDFDFD;
    box-shadow: inset 0px 0px 7px #CCC;
    border: 1px solid #a4a4a4;
@@ -164,7 +185,7 @@ a.gen_annotation_active {
    text-decoration: none;   
    font-weight: bold;   
    padding: 2px 3px;
-   margin: 0 -1px 0 0;   
+   margin: 0px -1px 0px 0px;   
    background-color: #FDFDFD;
    box-shadow: inset 0px 0px 7px #CCC;
    border: 1px solid #a4a4a4;
@@ -175,9 +196,9 @@ a.gen_annotation_inactive {
    background-color: white;  
    color: #a8a8a8;
    padding: 2px 3px;
-   margin: 0 -1px 0 0;
-   text-shadow: 0 0 1px white;
-   box-shadow: 1px 1px 0 #efefef;
+   margin: 0px -1px 0px 0px;
+   text-shadow: 0px 0px 1px white;
+   box-shadow: 1px 1px 0px #efefef;
    border: 1px solid #ccc;
    font-weight: bold;
    text-decoration: none;
@@ -212,9 +233,9 @@ a.gen_annotation_inactive {
 }
 
 ul {
-   margin-top: 5;
-   margin-bottom: 5;
-   padding-left: 5;
+   margin-top: 5px;
+   margin-bottom: 5px;
+   padding-left: 5px;
 }
 
 li.name {
@@ -238,23 +259,25 @@ div.npi_detail_div_bg {
    position: absolute;
    background-image: url("patterns/bg-pinstripe.png");
    opacity: 0.4;
-   width: 315;
-   height: 602;
-   top: 63;
+   width: 355px; 
+   height: 602px;
+   top: 68px;
 }
 
 div.npi_detail_div {
    position: absolute;
    opacity: 1;   
-   width: 315;
-   height: 602;
-   top: 63;
+   width: 355px;
+   height: 602px;
+   top: 68px;
 }
 
 body {
+   margin: 0px 0px 0px 0px;
+}
+div#draw_area {
    font-family: arial, sans-serif;
    font-size: 11px;
-   margin: 0 0 0 0;
 }
 
 div#hcpcs_reel_active {
@@ -262,19 +285,21 @@ div#hcpcs_reel_active {
 }
 
 .yr_path_hover {
-   stroke-width: 3;
+   stroke-width: 3px;
    stroke: #de5d0a;
    cursor: pointer;   
 }
 .yr_path_click {
-   stroke-width: 3;
+   stroke-width: 3px;
    stroke: #f5b232;  
 }
 
 div.hcpcs_bubble {
+   font-family: Arial;
+   text-align: center;
    position: absolute;
-   height: 190;
-   width: 100;
+   height: 190px;
+   width: 100px;
    background-color: #406584;
    border-style: solid;
    border-color: rgba(80,50,15,0.2);
@@ -284,11 +309,11 @@ div.hcpcs_bubble {
 
 div.hcpcs-bubble-active {
    opacity: 0.5;
-   border: 1 solid #300
+   border: 1px solid #300
 }
 
 div.hcpcs-bubble-hover {
-   opacity: 1;
+   opacity: 1px;
    background-color: rgb(102,0,0);
 }
 
@@ -299,13 +324,13 @@ div.legend_bubble {
    font-size: 14px;
    font-weight: bold;
    color: #444;
-   height: 42;
-   width: 100;
+   height: 42px;
+   width: 100px;
    text-align: center;
    line-height: 43px;
    background-color: #D9D0D4;
-   margin-top: 3;
-   margin-left: 3;
+   margin-top: 3px;
+   margin-left: 3px;
    border-style: solid;
    border-color: rgba(80,50,15,0.2);
    border-width: 1px;
@@ -335,15 +360,15 @@ div.npi_stat_table {
 }
 div.table_click {
    background-color: rgba(255,255,255,0.5);
-   box-shadow: 0 4px 8px rgba(0,0,0,0.15);
+   box-shadow: 0px 4px 8px rgba(0,0,0,0.15);
 }
 
 div.annotation {
    position: absolute;
    background-color: rgba(192,192,192,0.3);
-   padding: 5;
-   spacing: 5;
-   border-width: 1;
+   padding: 5px;
+   spacing: 5px;
+   border-width: 1px;
    border-style: dotted;
    border-color: #406584;
 }
@@ -359,6 +384,9 @@ div.annotation {
    fill: #666;
 }
 
+td.metric_label {
+   width: 250px;
+}
 td.metric_value {
    font-family: arial, sans-serif;
    font-size: 12px;
@@ -370,6 +398,11 @@ td.metric_name {
    font-size: 12px;
    font-weight: bold;
    color: #333;
+}
+
+#detail_body_table td {
+   padding: 3.5px;
+   border: 0px;
 }
 
 thead h1 {

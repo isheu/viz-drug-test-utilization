@@ -1,0 +1,138 @@
+<html>
+   <head>
+      <meta charset="utf-8">
+      <meta http-equiv="X-UA-Compatible" content="chrome=1">
+      <title></title>
+      
+      <script src="http://d3js.org/d3.v3.min.js" charset="utf-8"></script>
+      <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+      <script src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.10.3/jquery-ui.min.js"></script>
+      
+       
+      <script type="text/javascript" src="../../libraries/iconic/js/iconic.min.js"></script>
+      <script type="text/javascript" src="./mue_violators_fn.js"></script>
+      <script type="text/javascript" src="./mue_violators_fn_helper.js"></script>
+      <script type="text/javascript" src="./mue_violators_fn_menu.js"></script>
+      
+      <script type="text/javascript" src="./drug_test_mue_data.js"></script>
+    
+      <link rel="stylesheet" href="stylesheets/styles.css">
+      <link rel="stylesheet" href="stylesheets/pygment_trac.css">
+      
+      <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+
+      <link rel="stylesheet" type="text/css" href="./mue_violators.css" />
+      <link rel="stylesheet" href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.10.3/themes/smoothness/jquery-ui.css" />
+   </head>
+   <body>
+      <div class = "wrapper">
+         <header>
+            <div class = "header_content">
+               <h1>Quantitative Drug Testing - Excess Usage Over Time</h1>
+               <br class="view"><a href="http://isheu.github.io">Home &#187;</a>
+               <br class="view"><a href="https://github.com/isheu">GitHub Repo &#187;</a>
+               <p class = "view"></p>
+               <h4>Background</h4>
+               <p>For this project, I built a tool to visually compare the distances (straight and driving) of hospitals to the borders of neighbouring counties. There had been a change in health policy that affected whether some hospitals would be classified as primarily serving a rural population. 
+               Some unforeseen exceptions to the policy came up, and to examine these scenarios, our client requested a report on the counties closest to a set of hospitals. This tool was built to let them easily explore the results. 
+               </p>
+               <h4 class = "view">Thoughts about Project </h4>
+               <p> This visualization tool wasn't necessary to complete the task, but was a nice way to let the client understand the methodology, and be able to explore any unexpected results. It was useful in highlighting the effect of selecting between straight or driving distances. </p>
+               <p> I was pleased in doing this work to learn about: 
+               <ul class = "view">
+                  <li class = "links view">TopoJSON Manipulation</li>
+                  <li class = "links view">Sampling points along SVG paths</li>
+                  <li class = "links view">Geographic projection systems</li>
+                  <li class = "links view">Clip-path</li>
+               </ul>
+            </div>
+            <div class = "close_content">
+               <span class = "close_right">&#171;</span>            
+            </div>
+
+         </header>
+         <section>
+            <div id = "draw_area">
+               <div id = "hcpcs_accordion">
+                  <h3>Quantitative Drug Tests</h3>
+                  <div id = "quant_hcpcs" class = "hcpcs_list">
+                  <div>
+                     <ul>
+                     <li class = "hcpcs_sorter">Rank by: <span id = "sorter_name">ABC</span> <span id = "sorter_pmt">$$</span> <span id = "sorter_ovp">OVP</span>  <span id = "sorter_p_ovp">% OVP</span></li>
+                     </ul>
+                  </div>
+                  <div id = "list"><ul></ul></div>
+                  </div>
+               </div>
+            </div>
+         </section>
+      </div>
+
+      <svg height = "0px" width = "0px">
+        <defs>
+          <linearGradient id="grad1" x1="0%" y1="0%" x2="100%" y2="0%">
+            <stop offset="0%" style="stop-color:rgb(255,255,255);stop-opacity:0.75" />
+            <stop offset="100%" style="stop-color:rgb(255,255,255);stop-opacity:0" />
+          </linearGradient>
+
+          <linearGradient id="grad2" x1="0%" y1="0%" x2="0%" y2="100%">
+            <stop offset="0%" style="stop-color: #CBD8E3; stop-opacity:0.25" />
+            <stop offset="100%" style="stop-color: #C5D0D4; stop-opacity:1" />
+          </linearGradient>          
+        </defs>
+      </svg>      
+
+      <script>
+         var wndw_width = $( window ).width();
+         // var wndw_width = 1600;
+         var column_0_x = 0.16 * wndw_width;
+         var column_1_x = column_0_x + 90;
+         var column_2_x = column_0_x + 325;
+         var column_3_x = column_0_x + 525;
+         var column_4_x = column_0_x + 775;
+         var column_5_x = column_0_x + 1075;
+      
+         var hcpcs_yearly_data = [];
+         var hcpcs_top_npi_data = [];
+
+         var hcpcs_cd_list = ["83925", "83789", "82542"];
+
+         var dragged_hcpcs_id = "";
+         var dropped_reel_id = "";
+
+         var array_closure_reels = [];
+         var label_1, label_2, label_3;
+
+         var yr_formatter = d3.format("g");
+         var price_formatter = d3.format(">,s");
+         var price_formatter_full = d3.format(",02d");
+         var percent_formatter = d3.format("02d");
+         var comma_formatter = d3.format(",");
+         var hcp_select = [
+            {"hcpcs":"83925", "description":"Opiates"}, 
+            {"hcpcs":"82542", "description":"Column Chromatography"}, 
+            {"hcpcs":"83789", "description":"Mass Spectrometry"}];
+
+         var hcpcs_yearly_data = [];
+         initialize_graphic_tutorial()
+         draw_mue_display("draw_area")
+         d3.select(".close_right")
+            .on("click", toggle_description)
+
+         function toggle_description() {
+            if (!d3.select(".header_content").classed("hidden")) {
+               d3.select("header").transition()
+                  .style("width", "10px")
+               d3.select(".header_content").classed("hidden", 1)
+               d3.select(".close_right").html("&#187;")
+            }
+            else {
+               d3.select("header").transition()
+                  .style("width", "350px")
+               setTimeout(function() { d3.select(".header_content").classed("hidden", 0) }, 250)
+               d3.select(".close_right").html("&#171;")
+            }
+         }
+      </script>
+   </body>
+</html>
