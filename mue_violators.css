@@ -1,5 +1,14 @@
-.tutorial_arrow { stroke: #57945a; }
+.tutorial_arrow { 
+   fill: #f5b232;
+   stroke: rgb(232,151,70);
+   }
 .tutorial_blurb { z-index: 5; }
+.tutorial_text {
+   font-family: Arial;
+   font-size: 12px;
+   fill: #333;
+   shape-rendering: crispEdges;
+}
 
 .drag_tutorial {
    text-align: center;
@@ -158,6 +167,15 @@
    margin: 0px;
    padding: 0px;
    top: 47px;
+   height: 18px;
+   width: 102px;
+   margin-left: 3px;            
+}
+#show_tutorial {
+   position: absolute; 
+   margin: 0px;
+   padding: 0px;
+   top: 15px;
    height: 18px;
    width: 102px;
    margin-left: 3px;            

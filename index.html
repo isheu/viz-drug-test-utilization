@@ -33,17 +33,16 @@
                <br class="view"><a href="https://github.com/isheu">GitHub Repo &#187;</a>
                <p class = "view"></p>
                <h4>Background</h4>
-               <p>For this project, I built a tool to visually compare the distances (straight and driving) of hospitals to the borders of neighbouring counties. There had been a change in health policy that affected whether some hospitals would be classified as primarily serving a rural population. 
-               Some unforeseen exceptions to the policy came up, and to examine these scenarios, our client requested a report on the counties closest to a set of hospitals. This tool was built to let them easily explore the results. 
+               <p> This graphic allows an audience with some content expertise to get progressively more detailed information about the selected medical test's usage in a study period. I paid special attention here to 
+               relaying the story in a digestible manner, starting from the most general information about the procedure, to violations of billing policy in aggregate, to the specific violators. 
                </p>
                <h4 class = "view">Thoughts about Project </h4>
-               <p> This visualization tool wasn't necessary to complete the task, but was a nice way to let the client understand the methodology, and be able to explore any unexpected results. It was useful in highlighting the effect of selecting between straight or driving distances. </p>
+               <p> This was one of my first d3 projects to be used by a client as a presentation tool. </p>
                <p> I was pleased in doing this work to learn about: 
                <ul class = "view">
-                  <li class = "links view">TopoJSON Manipulation</li>
-                  <li class = "links view">Sampling points along SVG paths</li>
-                  <li class = "links view">Geographic projection systems</li>
-                  <li class = "links view">Clip-path</li>
+                  <li class = "links view">Using JQuery, JQueryUI</li>
+                  <li class = "links view">Color Theory for Data Graphics</li>
+                  <li class = "links view">Basic Dashboard Construction</li>
                </ul>
             </div>
             <div class = "close_content">
@@ -78,6 +77,11 @@
           <linearGradient id="grad2" x1="0%" y1="0%" x2="0%" y2="100%">
             <stop offset="0%" style="stop-color: #CBD8E3; stop-opacity:0.25" />
             <stop offset="100%" style="stop-color: #C5D0D4; stop-opacity:1" />
+          </linearGradient>          
+
+          <linearGradient id="grad3" x1="0%" y1="0%" x2="0%" y2="100%">
+            <stop offset="0%" style="stop-color:#CBD8E3;stop-opacity:0.9" />
+            <stop offset="100%" style="stop-color:#CBD8E3;stop-opacity:0.9" />
           </linearGradient>          
         </defs>
       </svg>      
@@ -114,8 +118,9 @@
             {"hcpcs":"83789", "description":"Mass Spectrometry"}];
 
          var hcpcs_yearly_data = [];
-         initialize_graphic_tutorial()
          draw_mue_display("draw_area")
+         initialize_graphic_tutorial()
+
          d3.select(".close_right")
             .on("click", toggle_description)
 

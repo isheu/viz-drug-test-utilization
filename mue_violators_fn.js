@@ -244,6 +244,10 @@ function draw_mue_display(canvas_div_id) {
       .style("left", column_0_x)
       .append("a").html("Show/Hide Notes").classed("gen_annotation_inactive",1)
 
+   d3.select("div#" + canvas_div_id).append("div").attr("id","show_tutorial")
+      .style("left", column_0_x)
+      .append("a").html("Show Tutorial").classed("gen_annotation_inactive",1)
+
    /* MANUAL1: Elements Requiring Highly Manual Placement, Styling, and Content */
    var main_ann_div = d3.select("div#" + canvas_div_id).append("div").attr("id", "main_annotation_div").style("opacity", 0);
    main_ann_div.append("div").attr("id", "annotation_1_div").attr("class", "text-annotation")
@@ -321,6 +325,39 @@ function draw_mue_display(canvas_div_id) {
             d3.select("div#main_annotation_div")
                .transition().duration(300)
                .style("opacity", 0);
+         }
+      })            
+      .on("mouseout", function() {
+         if (!d3.select(this).classed("gen_annotation_clicked")) {
+            d3.select(this)
+               .classed("gen_annotation_inactive",1)
+               .classed("gen_annotation_active",0)
+         }
+      });            
+
+   d3.select("div#show_tutorial").select("a")
+      .on("mouseover", function() {
+         d3.select(this)
+            .style("cursor", "pointer")
+            .classed("gen_annotation_inactive",0)
+            .classed("gen_annotation_active",1)
+      })
+      .on("click", function() {             
+         if (!d3.select(this).classed("gen_annotation_clicked")) {
+            d3.select(this)
+               .style("cursor", "default")
+               .classed("gen_annotation_clicked",1)
+               .classed("gen_annotation_inactive",0)
+               .classed("gen_annotation_active",0)
+            show_graphic_tutorial()
+         }
+         else {
+            d3.select(this)
+               .style("cursor", "pointer")
+               .classed("gen_annotation_clicked",0)
+               .classed("gen_annotation_inactive",1)
+               .classed("gen_annotation_active",0) 
+            rm_graphic_tutorial()
          }
       })            
       .on("mouseout", function() {

@@ -57,22 +57,46 @@ function compare_hcpcs_p_ovp(a, b) {
 }
 
 function initialize_graphic_tutorial() {
-   var tutorial_svg = d3.select("div#draw_area").append("svg").attr("id", "tutorial_svg").attr("fill", "none")
-      .style("position", "absolute")
+   var tutorial_svg = d3.select("div#draw_area").append("svg").attr("id", "tutorial_svg")
+      .style("position", "absolute").style("left", "315px").style("top", "90px")
+      .attr("width", "250px").attr("height", "43px").attr("opacity", 0)
    tutorial_svg.append("g").attr("id", "tutorial_accordion").attr("class", "tutorial_blurb")
-      .attr("transform", "translate(250,200)")
-      .append("img").attr("class", "iconic tutorial_arrow").attr("data-src", "icons/iconic/flat/arrow-thick-left-fill-acute-sm.svg")
-      .attr("width", "100px").attr("height", "100px");
+      .attr("transform", "translate(0,0)")
+      .append("img").attr("class", "iconic tutorial_arrow").attr("data-src", "icons/iconic/flat/arrow-thick-left-fill-acute-md.svg")
+      .attr("width", "15px").attr("height", "15px");
    tutorial_svg.select("#tutorial_accordion")
-      .append("text").attr("x", "15px").attr("y", "5px")
-      .text("Drag & drop HCPCS procedures onto reels")
-   
+      .append("line").attr("x1", "36px").attr("x2", "286px").attr("y1", "1px").attr("y2", "1px")
+      .attr("stroke", "#f5b232").style("shape-rendering", "crispEdges")
+   tutorial_svg.select("#tutorial_accordion")
+      .append("rect").attr("x", "36px").attr("y", "2px").attr("width", "214px").attr("height", "40px")
+      .attr("fill", "url(#grad3)")
+   tutorial_svg.select("#tutorial_accordion")
+      .append("line").attr("x1", "36px").attr("x2", "286px").attr("y1", "42px").attr("y2", "42px")
+      .attr("stroke", "#f5b232").style("shape-rendering", "crispEdges")
+   tutorial_svg.select("#tutorial_accordion")
+      .append("text").attr("class", "tutorial_text").attr("x", "40px").attr("y", "18px")
+      .text("Drag & drop HCPCS procedures")
+   tutorial_svg.select("#tutorial_accordion")
+      .append("text").attr("class", "tutorial_text").attr("x", "40px").attr("y", "36px")
+      .text("onto title of reels")
 }
 function show_graphic_tutorial() {
+   d3.select("#tutorial_svg")
+      .transition().duration(25)
+      .attr("opacity", 1);
+   d3.select("#tutorial_svg")
+      .transition().ease("back", 2).delay(25)
+      .style("left", 285);
    // Drag-Drop drug tests onto reels to view metrics //   
    // Tutorial Screens unfurl down //
    // <-- Remove Tutorial Button //
    
    // <-- Click particular line series to plot this year on CDF //
    // <-- Click points to get detailed information on the specific lab //
+}
+function rm_graphic_tutorial() {
+   d3.select("#tutorial_svg")
+      .transition().duration(50)
+      .attr("opacity", 0)
+      .style("left", 315);
 }
